@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BO Analytics | Credit Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #e74c3c;
+            --accent-light: #f39c12;
+            --text-light: #ecf0f1;
+            --text-dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .brand {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .nav-menu {
+            padding: 20px 0;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255,255,255,0.1);
+            border-left: 3px solid var(--accent);
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Credit Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-card {
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+        }
+        
+        .script-credits {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .deep-credits {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .overview-credits {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        /* Button Styles */
+        .btn {
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
+            padding: 20px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--accent);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="brand">
+                <h2><i class="fas fa-film"></i> BO Analytics</h2>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-item active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </div>
+                <div class="nav-item" onclick="showSection('credits')">
+                    <i class="fas fa-coins"></i> Credit Management
+                </div>
+                <div class="nav-item" onclick="showSection('transactions')">
+                    <i class="fas fa-exchange-alt"></i> Transactions
+                </div>
+                <div class="nav-item" onclick="showSection('users')">
+                    <i class="fas fa-users"></i> User Management
+                </div>
+                <div class="nav-item" onclick="showSection('settings')">
+                    <i class="fas fa-cog"></i> Settings
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section">
+                <div class="header">
+                    <h1>Credit Dashboard</h1>
+                    <div>
+                        <button class="btn btn-primary" onclick="openModal('add-credits-modal')">
+                            <i class="fas fa-plus"></i> Add Credits
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="summary-card script-credits">
+                        <h3>Script Analysis Credits</h3>
+                        <div class="value" style="font-size: 24px; font-weight: bold;">1,245</div>
+                        <div style="font-size: 12px;">
+                            <i class="fas fa-arrow-up"></i> 12% from last month
+                        </div>
+                    </div>
+                    <div class="summary-card deep-credits">
+                        <h3>Deep Analysis Credits</h3>
+                        <div class="value" style="font-size: 24px; font-weight: bold;">845</div>
+                        <div style="font-size: 12px;">
+                            <i class="fas fa-arrow-down"></i> 5% from last month
+                        </div>
+                    </div>
+                    <div class="summary-card overview-credits">
+                        <h3>Overview Credits</h3>
+                        <div class="value" style="font-size: 24px; font-weight: bold;">1,520</div>
+                        <div style="font-size: 12px;">
+                            <i class="fas fa-arrow-up"></i> 8% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="card">
+                    <h2>Recent Credit Usage</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Analysis Type</th>
+                                    <th>Credits Used</th>
+                                    <th>Remaining</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2023-11-15</td>
+                                    <td>Christian</td>
+                                    <td>Script Analysis</td>
+                                    <td>1</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-14</td>
+                                    <td>Sarah</td>
+                                    <td>Deep Analysis</td>
+                                    <td>1</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-13</td>
+                                    <td>Michael</td>
+                                    <td>Overview Analysis</td>
+                                    <td>1</td>
+                                    <td>12</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Expiring Soon -->
+                <div class="card">
+                    <h2>Credits Expiring Soon (Next 30 Days)</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Credit Type</th>
+                                    <th>Quantity</th>
+                                    <th>Expiry Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Christian</td>
+                                    <td>Script Analysis</td>
+                                    <td>5</td>
+                                    <td>2023-12-10</td>
+                                    <td>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                            <i class="fas fa-envelope"></i> Notify
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Emma</td>
+                                    <td>Deep Analysis</td>
+                                    <td>3</td>
+                                    <td>2023-12-15</td>
+                                    <td>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                            <i class="fas fa-envelope"></i> Notify
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Credit Management Section -->
+            <div id="credits-section" style="display: none;">
+                <div class="header">
+                    <h1>Credit Management</h1>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="showCreditTab('script')">Script Credits</div>
+                    <div class="tab" onclick="showCreditTab('deep')">Deep Analysis</div>
+                    <div class="tab" onclick="showCreditTab('overview')">Overview</div>
+                </div>
+                
+                <!-- Script Credits Tab -->
+                <div id="script-credits-tab">
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h2>Script Analysis Credits</h2>
+                            <button class="btn btn-primary" onclick="openModal('add-script-credits-modal')">
+                                <i class="fas fa-plus"></i> Add Credits
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Credits</th>
+                                        <th>Last Used</th>
+                                        <th>Expiry Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1001</td>
+                                        <td>Christian</td>
+                                        <td>christian@example.com</td>
+                                        <td>5</td>
+                                        <td>2023-11-15</td>
+                                        <td>2023-12-10</td>
+                                        <td><span class="badge badge-warning">Expiring</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1002</td>
+                                        <td>Sarah</td>
+                                        <td>sarah@example.com</td>
+                                        <td>8</td>
+                                        <td>2023-11-10</td>
+                                        <td>2024-05-10</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Deep Analysis Tab (hidden by default) -->
+                <div id="deep-credits-tab" style="display: none;">
+                    <!-- Similar structure as script credits -->
+                </div>
+                
+                <!-- Overview Tab (hidden by default) -->
+                <div id="overview-credits-tab" style="display: none;">
+                    <!-- Similar structure as script credits -->
+                </div>
+            </div>
+            
+            <!-- Transactions Section -->
+            <div id="transactions-section" style="display: none;">
+                <div class="header">
+                    <h1>Transaction History</h1>
+                </div>
+                
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h2>All Transactions</h2>
+                        <button class="btn btn-primary" onclick="openModal('add-transaction-modal')">
+                            <i class="fas fa-plus"></i> Add Manual Transaction
+                        </button>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Credit Type</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Payment Method</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TXN-1001</td>
+                                    <td>2023-11-10</td>
+                                    <td>Christian</td>
+                                    <td>Script Analysis</td>
+                                    <td>10</td>
+                                    <td>$500.00</td>
+                                    <td>Credit Card</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>TXN-1002</td>
+                                    <td>2023-11-05</td>
+                                    <td>Sarah</td>
+                                    <td>Deep Analysis</td>
+                                    <td>5</td>
+                                    <td>$750.00</td>
+                                    <td>Bank Transfer</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User Management Section -->
+            <div id="users-section" style="display: none;">
+                <div class="header">
+                    <h1>User Management</h1>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Script Credits</th>
+                                    <th>Deep Credits</th>
+                                    <th>Overview Credits</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1001</td>
+                                    <td>Christian</td>
+                                    <td>christian@example.com</td>
+                                    <td>5</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1002</td>
+                                    <td>Sarah</td>
+                                    <td>sarah@example.com</td>
+                                    <td>8</td>
+                                    <td>5</td>
+                                    <td>3</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Credits Modal -->
+    <div class="modal" id="add-credits-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Credits</h2>
+                <button class="modal-close" onclick="closeModal('add-credits-modal')">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-credits-form">
+                    <div class="form-group">
+                        <label>Select User</label>
+                        <select required>
+                            <option value="">-- Select User --</option>
+                            <option value="1001">Christian (christian@example.com)</option>
+                            <option value="1002">Sarah (sarah@example.com)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Credit Type</label>
+                        <select required>
+                            <option value="">-- Select Credit Type --</option>
+                            <option value="script">Script Analysis</option>
+                            <option value="deep">Deep Analysis</option>
+                            <option value="overview">Overview Analysis</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Credit Amount</label>
+                        <input type="number" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input type="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('add-credits-modal')">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" type="submit" form="add-credits-form">
+                    Add Credits
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Transaction Modal -->
+    <div class="modal" id="add-transaction-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Manual Transaction</h2>
+                <button class="modal-close" onclick="closeModal('add-transaction-modal')">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-transaction-form">
+                    <div class="form-group">
+                        <label>Select User</label>
+                        <select required>
+                            <option value="">-- Select User --</option>
+                            <option value="1001">Christian (christian@example.com)</option>
+                            <option value="1002">Sarah (sarah@example.com)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Transaction Type</label>
+                        <select required>
+                            <option value="">-- Select Type --</option>
+                            <option value="purchase">Credit Purchase</option>
+                            <option value="manual">Manual Adjustment</option>
+                            <option value="refund">Refund</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Credit Type</label>
+                        <select required>
+                            <option value="">-- Select Credit Type --</option>
+                            <option value="script">Script Analysis</option>
+                            <option value="deep">Deep Analysis</option>
+                            <option value="overview">Overview Analysis</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="number" min="0" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select>
+                            <option value="">-- Select Method --</option>
+                            <option value="credit">Credit Card</option>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="manual">Manual</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('add-transaction-modal')">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" type="submit" form="add-transaction-form">
+                    Add Transaction
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Show/hide sections
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('[id$="-section"]').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId + '-section').style.display = 'block';
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Show credit tabs
+        function showCreditTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('[id$="-tab"]').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId + '-credits-tab').style.display = 'block';
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Form submission
+        document.getElementById('add-credits-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Credits added successfully!');
+            closeModal('add-credits-modal');
+            this.reset();
+        });
+        
+        document.getElementById('add-transaction-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Transaction added successfully!');
+            closeModal('add-transaction-modal');
+            this.reset();
+        });
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('dashboard');
+        });
+    </script>
+</body>
+</html>
