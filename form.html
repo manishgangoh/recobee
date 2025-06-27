@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Payment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --darker: #2a2a2a;
+            --gold: #FFD700;
+            --gold-light: #FFEC8B;
+            --text: #f0f0f0;
+            --text-light: #b0b0b0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .modal-content {
+            background: linear-gradient(145deg, #1e1e1e 0%, #1a1a1a 100%);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 550px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            color: var(--gold);
+        }
+        
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+            min-width: 0; /* Prevents overflow */
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .form-control {
+            width: 100%;
+            background-color: var(--darker);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: var(--text);
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD700'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+            padding-right: 30px;
+        }
+        
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: #000;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: var(--darker);
+            color: var(--gold);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 12px;
+            }
+            
+            .form-control {
+                padding: 8px 12px;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                min-width: 80px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .modal-header, .modal-footer {
+                padding: 12px 15px;
+            }
+            
+            .modal-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Add Payment Modal -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Add Payment Record</h3>
+            <button class="modal-close">
+                &times;
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="add-payment-form">
+                <div class="form-group">
+                    <label class="form-label">Select User</label>
+                    <select class="form-control" required>
+                        <option value="">-- Select User --</option>
+                        <option value="1001">Christian (christian@example.com)</option>
+                        <option value="1002">Sarah (sarah@example.com)</option>
+                        <option value="1003">Michael (michael@example.com)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Payment Date</label>
+                    <input type="date" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Payment Amount ($)</label>
+                    <input type="number" class="form-control" min="0" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Payment Method</label>
+                    <select class="form-control" required>
+                        <option value="">-- Select Method --</option>
+                        <option value="credit">Credit Card</option>
+                        <option value="bank">Bank Transfer</option>
+                        <option value="cash">Cash</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Credit Type</label>
+                    <select class="form-control" required>
+                        <option value="">-- Select Credit Type --</option>
+                        <option value="script">Script Analysis</option>
+                        <option value="trailer">Trailer Analysis</option>
+                        <option value="overview">Overview Credits</option>
+                        <option value="deep">Deep Analysis</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Credit Quantity</label>
+                    <input type="number" class="form-control" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Transaction Reference</label>
+                    <input type="text" class="form-control" placeholder="Optional">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-control" rows="3" placeholder="Additional information"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary">
+                Cancel
+            </button>
+            <button class="btn btn-primary" type="submit" form="add-payment-form">
+                <i class="fas fa-check"></i> Add Payment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Form submission
+        document.getElementById('add-payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Payment record added successfully!');
+            this.reset();
+        });
+        
+        // Close button functionality
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            // In a real implementation, this would close the modal
+            alert('Modal would close here in the full implementation');
+        });
+
+        // Auto-focus first input
+        document.querySelector('.form-control').focus();
+    </script>
+</body>
+</html>
