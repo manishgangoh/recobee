@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BO Analytics | Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --darker: #2a2a2a;
+            --gold: #FFD700;
+            --gold-light: #FFEC8B;
+            --red: #FF4D4D;
+            --green: #00C851;
+            --orange: #FF8800;
+            --blue: #3498db;
+            --purple: #9b59b6;
+            --text: #f0f0f0;
+            --text-light: #b0b0b0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--black);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background: linear-gradient(180deg, var(--black) 0%, #131313 100%);
+            border-right: 1px solid rgba(255, 215, 0, 0.1);
+        }
+        
+        .brand {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-weight: bold;
+        }
+        
+        .brand-name {
+            font-size: 18px;
+            font-weight: 600;
+            background: linear-gradient(to right, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-menu {
+            padding: 20px 0;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+        
+        .nav-item.active {
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--gold);
+        }
+        
+        .nav-icon {
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            padding: 25px;
+            background-color: var(--dark);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .page-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        /* Card Styles */
+        .card {
+            background: linear-gradient(145deg, #1e1e1e 0%, #1a1a1a 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+        
+        /* Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .summary-card {
+            position: relative;
+            overflow: hidden;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .summary-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0) 70%);
+        }
+        
+        .summary-title {
+            font-size: 13px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .summary-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+        
+        .summary-trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+        
+        /* Color Variants */
+        .card-script {
+            border-left: 4px solid var(--blue);
+        }
+        
+        .card-trailer {
+            border-left: 4px solid var(--purple);
+        }
+        
+        .card-overview {
+            border-left: 4px solid var(--orange);
+        }
+        
+        .card-deep {
+            border-left: 4px solid var(--red);
+        }
+        
+        .card-users {
+            border-left: 4px solid var(--green);
+        }
+        
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .data-table thead th {
+            background-color: var(--darker);
+            color: var(--gold);
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        .data-table tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        .data-table tbody tr:hover {
+            background-color: rgba(255, 215, 0, 0.03);
+        }
+        
+        .data-table td {
+            padding: 14px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.05);
+        }
+        
+        /* Status Badges */
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: rgba(0, 200, 81, 0.1);
+            color: var(--green);
+        }
+        
+        .badge-warning {
+            background-color: rgba(255, 136, 0, 0.1);
+            color: var(--orange);
+        }
+        
+        .badge-danger {
+            background-color: rgba(255, 77, 77, 0.1);
+            color: var(--red);
+        }
+        
+        /* Button Styles */
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-sm {
+            padding: 7px 12px;
+            font-size: 13px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: #000;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: var(--darker);
+            color: var(--gold);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: linear-gradient(145deg, #1e1e1e 0%, #1a1a1a 100%);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            color: var(--gold);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            background-color: var(--darker);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 6px;
+            padding: 10px 14px;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+        }
+        
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            color: var(--gold);
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--gold);
+            color: var(--gold);
+            font-weight: 500;
+        }
+        
+        /* Section Management */
+        .dashboard-section {
+            display: none;
+        }
+        
+        .dashboard-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <div class="brand-name">BO Analytics</div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" onclick="showSection('dashboard')">
+                    <div class="nav-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div>Dashboard</div>
+                </div>
+                <div class="nav-item" onclick="showSection('credits')">
+                    <div class="nav-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div>Credits</div>
+                </div>
+                <div class="nav-item" onclick="showSection('payments')">
+                    <div class="nav-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div>Payments</div>
+                </div>
+                <div class="nav-item" onclick="showSection('users')">
+                    <div class="nav-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>Users</div>
+                </div>
+                <div class="nav-item" onclick="showSection('settings')">
+                    <div class="nav-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div>Settings</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="dashboard-section active">
+                <div class="header">
+                    <h1 class="page-title">Dashboard Overview</h1>
+                    <div class="user-actions">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-user"></i> Admin
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="summary-card card-script">
+                        <div class="summary-title">
+                            <i class="fas fa-file-alt" style="color: var(--blue);"></i> Script Analysis Credits
+                        </div>
+                        <div class="summary-value">1,245</div>
+                        <div class="summary-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 12% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card card-trailer">
+                        <div class="summary-title">
+                            <i class="fas fa-play-circle" style="color: var(--purple);"></i> Trailer Analysis Credits
+                        </div>
+                        <div class="summary-value">845</div>
+                        <div class="summary-trend trend-down">
+                            <i class="fas fa-arrow-down"></i> 5% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card card-overview">
+                        <div class="summary-title">
+                            <i class="fas fa-chart-bar" style="color: var(--orange);"></i> Overview Credits
+                        </div>
+                        <div class="summary-value">1,520</div>
+                        <div class="summary-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 8% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card card-deep">
+                        <div class="summary-title">
+                            <i class="fas fa-search-plus" style="color: var(--red);"></i> Deep Analysis Credits
+                        </div>
+                        <div class="summary-value">932</div>
+                        <div class="summary-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 15% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card card-users">
+                        <div class="summary-title">
+                            <i class="fas fa-users" style="color: var(--green);"></i> Total Users
+                        </div>
+                        <div class="summary-value">248</div>
+                        <div class="summary-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 10 new this month
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Credit Usage</h2>
+                        <button class="btn btn-secondary btn-sm">
+                            View All
+                        </button>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Analysis Type</th>
+                                    <th>Credits Used</th>
+                                    <th>Remaining</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2023-11-15 09:30</td>
+                                    <td>Christian</td>
+                                    <td>Script Analysis</td>
+                                    <td>1</td>
+                                    <td>4</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-14 14:45</td>
+                                    <td>Sarah</td>
+                                    <td>Deep Analysis</td>
+                                    <td>1</td>
+                                    <td>7</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-13 11:20</td>
+                                    <td>Michael</td>
+                                    <td>Overview Analysis</td>
+                                    <td>1</td>
+                                    <td>12</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Credits Section -->
+            <div id="credits-section" class="dashboard-section">
+                <div class="header">
+                    <h1 class="page-title">Credit Management</h1>
+                    <button class="btn btn-primary" onclick="openModal('add-credits-modal')">
+                        <i class="fas fa-plus"></i> Add Credits
+                    </button>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="showCreditTab('script')">Script Credits</div>
+                    <div class="tab" onclick="showCreditTab('trailer')">Trailer Credits</div>
+                    <div class="tab" onclick="showCreditTab('overview')">Overview Credits</div>
+                    <div class="tab" onclick="showCreditTab('deep')">Deep Analysis</div>
+                </div>
+                
+                <!-- Script Credits Tab -->
+                <div id="script-credits-tab">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Credits</th>
+                                        <th>Last Used</th>
+                                        <th>Expiry Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1001</td>
+                                        <td>Christian</td>
+                                        <td>christian@example.com</td>
+                                        <td>5</td>
+                                        <td>2023-11-15</td>
+                                        <td>2023-12-10</td>
+                                        <td><span class="badge badge-warning">Expiring</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-secondary btn-sm">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1002</td>
+                                        <td>Sarah</td>
+                                        <td>sarah@example.com</td>
+                                        <td>8</td>
+                                        <td>2023-11-10</td>
+                                        <td>2024-05-10</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-secondary btn-sm">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other credit tabs would be similar -->
+            </div>
+            
+            <!-- Payments Section -->
+            <div id="payments-section" class="dashboard-section">
+                <div class="header">
+                    <h1 class="page-title">Payment Management</h1>
+                    <button class="btn btn-primary" onclick="openModal('add-payment-modal')">
+                        <i class="fas fa-plus"></i> Add Payment
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Payment ID</th>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Credit Type</th>
+                                    <th>Quantity</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PAY-1001</td>
+                                    <td>2023-11-15</td>
+                                    <td>Christian</td>
+                                    <td>$500.00</td>
+                                    <td>Script Analysis</td>
+                                    <td>10</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PAY-1002</td>
+                                    <td>2023-11-10</td>
+                                    <td>Sarah</td>
+                                    <td>$750.00</td>
+                                    <td>Deep Analysis</td>
+                                    <td>5</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Users Section -->
+            <div id="users-section" class="dashboard-section">
+                <div class="header">
+                    <h1 class="page-title">User Management</h1>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add User
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Joined Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1001</td>
+                                    <td>Christian</td>
+                                    <td>christian@example.com</td>
+                                    <td>Admin</td>
+                                    <td>2023-01-15</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1002</td>
+                                    <td>Sarah</td>
+                                    <td>sarah@example.com</td>
+                                    <td>User</td>
+                                    <td>2023-03-22</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Section -->
+            <div id="settings-section" class="dashboard-section">
+                <div class="header">
+                    <h1 class="page-title">System Settings</h1>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Credit Settings</h2>
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Default Credit Validity Period (months)</label>
+                            <input type="number" class="form-control" value="6" min="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Expiration Warning Days</label>
+                            <input type="number" class="form-control" value="7" min="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox"> Enable automatic email notifications
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            Save Settings
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Credits Modal -->
+    <div class="modal" id="add-credits-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Credits</h3>
+                <button class="modal-close" onclick="closeModal('add-credits-modal')">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-credits-form">
+                    <div class="form-group">
+                        <label class="form-label">Select User</label>
+                        <select class="form-control" required>
+                            <option value="">-- Select User --</option>
+                            <option value="1001">Christian (christian@example.com)</option>
+                            <option value="1002">Sarah (sarah@example.com)</option>
+                            <option value="1003">Michael (michael@example.com)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Credit Type</label>
+                        <select class="form-control" required>
+                            <option value="">-- Select Credit Type --</option>
+                            <option value="script">Script Analysis</option>
+                            <option value="trailer">Trailer Analysis</option>
+                            <option value="overview">Overview Credits</option>
+                            <option value="deep">Deep Analysis</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Credit Amount</label>
+                        <input type="number" class="form-control" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Expiry Date</label>
+                        <input type="date" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('add-credits-modal')">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" type="submit" form="add-credits-form">
+                    Add Credits
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Payment Modal -->
+    <div class="modal" id="add-payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Payment Record</h3>
+                <button class="modal-close" onclick="closeModal('add-payment-modal')">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-payment-form">
+                    <div class="form-group">
+                        <label class="form-label">Select User</label>
+                        <select class="form-control" required>
+                            <option value="">-- Select User --</option>
+                            <option value="1001">Christian (christian@example.com)</option>
+                            <option value="1002">Sarah (sarah@example.com)</option>
+                            <option value="1003">Michael (michael@example.com)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Payment Date</label>
+                        <input type="date" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Payment Amount</label>
+                        <input type="number" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Payment Method</label>
+                        <select class="form-control" required>
+                            <option value="">-- Select Method --</option>
+                            <option value="credit">Credit Card</option>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="cash">Cash</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Credit Type</label>
+                        <select class="form-control" required>
+                            <option value="">-- Select Credit Type --</option>
+                            <option value="script">Script Analysis</option>
+                            <option value="trailer">Trailer Analysis</option>
+                            <option value="overview">Overview Credits</option>
+                            <option value="deep">Deep Analysis</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Credit Quantity</label>
+                        <input type="number" class="form-control" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('add-payment-modal')">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" type="submit" form="add-payment-form">
+                    Add Payment
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Section Management
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId + '-section').classList.add('active');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Credit Tab Management
+        function showCreditTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('[id$="-tab"]').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId + '-credits-tab').style.display = 'block';
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Modal Management
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+        
+        // Form Submissions
+        document.getElementById('add-credits-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Credits added successfully!');
+            closeModal('add-credits-modal');
+            this.reset();
+        });
+        
+        document.getElementById('add-payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Payment record added successfully!');
+            closeModal('add-payment-modal');
+            this.reset();
+        });
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('dashboard');
+        });
+    </script>
+</body>
+</html>
