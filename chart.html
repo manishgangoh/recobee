@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>City Wise Occupancy</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #1E1E1E;
+            color: #EAB308;
+            font-family: Arial, sans-serif;
+        }
+        .chart-container {
+            width: 800px;
+            height: 500px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        
+        // Remove grid lines from canvas
+        Chart.defaults.color = '#EAB308'; // Set default text color
+        Chart.defaults.borderColor = 'rgba(234, 179, 8, 0.1)';
+        
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['National', 'Mumbai', 'Bengaluru', 'Chennai', 'Kolkata', 
+                        'Hyderabad', 'Pune', 'Surat', 'Ahmadabad', 'Jaipur'],
+                datasets: [
+                    {
+                        label: 'Occupancy (Numbers)',
+                        data: [0, 75, 60, 45, 30, 50, 40, 35, 25, 20],
+                        backgroundColor: '#876805',
+                        borderColor: '#EAB308',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Occupancy (%)',
+                        data: [0, 75, 60, 45, 30, 50, 40, 35, 25, 20],
+                        backgroundColor: 'rgba(234, 179, 8, 0.6)',
+                        borderColor: '#EAB308',
+                        borderWidth: 1,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'City Wise Occupancy',
+                        font: {
+                            size: 18,
+                            weight: 'bold'
+                        },
+                        color: '#EAB308'
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#EAB308',
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: true,
+                        backgroundColor: '#1E1E1E',
+                        titleColor: '#EAB308',
+                        bodyColor: '#EAB308',
+                        borderColor: '#876805',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            color: 'rgba(234, 179, 8, 0.1)'
+                        },
+                        ticks: {
+                            color: '#EAB308'
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Numbers',
+                            font: {
+                                weight: 'bold'
+                            },
+                            color: '#EAB308'
+                        },
+                        min: 0,
+                        max: 100,
+                        grid: {
+                            color: 'rgba(234, 179, 8, 0.1)'
+                        },
+                        ticks: {
+                            color: '#EAB308'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Percentage (%)',
+                            font: {
+                                weight: 'bold'
+                            },
+                            color: '#EAB308'
+                        },
+                        min: 0,
+                        max: 100,
+                        grid: {
+                            drawOnChartArea: false
+                        },
+                        ticks: {
+                            color: '#EAB308',
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                },
+                // Dark background for the chart area
+                backgroundColor: '#1E1E1E'
+            }
+        });
+    </script>
+</body>
+</html>
