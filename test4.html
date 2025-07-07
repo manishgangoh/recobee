@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoBee Services</title>
+    <style>
+        :root {
+            --preprod: #FF6B6B;
+            --prod: #4ECDC4;
+            --postprod: #FFD166;
+            --text: #2F3640;
+            --bg: #F5F6FA;
+            --live: #1DD1A1;
+            --progress: #FECA57;
+            --planned: #54A0FF;
+            --na: #FF6B6A;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .phase-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .preprod-header {
+            background-color: var(--preprod);
+        }
+        
+        .prod-header {
+            background-color: var(--prod);
+        }
+        
+        .postprod-header {
+            background-color: var(--postprod);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .service-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .service-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .service-name {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .live {
+            background-color: rgba(29, 209, 161, 0.2);
+            color: var(--live);
+        }
+        
+        .progress {
+            background-color: rgba(254, 202, 87, 0.2);
+            color: var(--progress);
+        }
+        
+        .planned {
+            background-color: rgba(84, 160, 255, 0.2);
+            color: var(--planned);
+        }
+        
+        .na {
+            background-color: rgba(255, 107, 106, 0.2);
+            color: var(--na);
+        }
+        
+        .service-desc {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .competitor-info {
+            background: #F8F9FA;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-top: 0.8rem;
+        }
+        
+        .competitor-name {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .pricing {
+            color: #777;
+            margin-top: 0.3rem;
+            font-size: 0.85rem;
+        }
+        
+        .sub-service {
+            margin-left: 1rem;
+            padding-left: 1rem;
+            border-left: 2px solid #eee;
+            margin-top: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Pre-production Card -->
+        <div class="phase-card">
+            <div class="card-header preprod-header">
+                Pre-production
+            </div>
+            <div class="card-body">
+                <!-- Industry Trends -->
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Industry Trend Landscape</span>
+                        <span class="status live">✅ Active</span>
+                    </div>
+                    <div class="service-desc">Genre/language performance data</div>
+                    
+                    <div class="sub-service">
+                        <div class="service-desc">By Genre & Language</div>
+                    </div>
+                    
+                    <div class="sub-service">
+                        <div class="service-desc">By Actor/Director</div>
+                    </div>
+                    
+                    <div class="competitor-info">
+                        <div class="competitor-name">Ormax Media</div>
+                        <div class="pricing">₹15–20 Lakh/year (bundled)</div>
+                    </div>
+                </div>
+                
+                <!-- Script Analysis -->
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Script Analysis</span>
+                        <span class="status live">✅ Active</span>
+                    </div>
+                    <div class="service-desc">AI-powered screenplay evaluation</div>
+                    <div class="competitor-info">
+                        <div>No direct competitors</div>
+                        <div class="pricing">Market rate: ₹2K–5K per script</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Production Card -->
+        <div class="phase-card">
+            <div class="card-header prod-header">
+                Production
+            </div>
+            <div class="card-body">
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Movie Making</span>
+                        <span class="status na">❌ Not Planned</span>
+                    </div>
+                    <div class="service-desc">Physical production services</div>
+                    <div class="competitor-info">
+                        Focus remains on data/AI services
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Post-production Card -->
+        <div class="phase-card">
+            <div class="card-header postprod-header">
+                Post-production
+            </div>
+            <div class="card-body">
+                <!-- Box Office Predictor -->
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Day 1 BO Predictor</span>
+                        <span class="status live">✅ Active</span>
+                    </div>
+                    <div class="service-desc">89% accurate opening forecasts</div>
+                    <div class="competitor-info">
+                        <div class="competitor-name">Ormax Media</div>
+                        <div class="pricing">₹15–20 Lakh/year (bundled)</div>
+                    </div>
+                </div>
+                
+                <!-- Cinema Analytics -->
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Cinema Analytics</span>
+                        <span class="status live">✅ Active</span>
+                    </div>
+                    
+                    <div class="sub-service">
+                        <div class="service-desc">Sentiment Analysis</div>
+                        <div class="competitor-info">
+                            <div>BrandMentions, Ormax</div>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-service">
+                        <div class="service-desc">Buzz Mapping</div>
+                        <div class="competitor-info">
+                            <div>Ormax (bundled)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-service">
+                        <div class="service-desc">Real-time Collection Reporting</div>
+                        <div class="competitor-info">
+                            <div>Freelancers market</div>
+                            <div class="pricing">₹4–5 Lakh/movie</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other Services -->
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Trailer Analysis</span>
+                        <span class="status live">✅ Active</span>
+                    </div>
+                    <div class="competitor-info">
+                        <div>Limited tools available</div>
+                        <div class="pricing">~₹50K/analysis</div>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Marketing Strategies</span>
+                        <span class="status planned">🔜 Planned</span>
+                    </div>
+                    <div class="competitor-info">
+                        <div class="competitor-name">Marketing Agencies</div>
+                        <div class="pricing">Up to 10% of budget</div>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Distribution Strategies</span>
+                        <span class="status planned">🔜 Planned</span>
+                    </div>
+                    <div class="competitor-info">
+                        Currently disorganized market
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-name">
+                        <span>Content Testing</span>
+                        <span class="status planned">🔜 Planned</span>
+                    </div>
+                    <div class="competitor-info">
+                        <div class="competitor-name">Ormax Media</div>
+                        <div class="pricing">₹6–25 Lakh/movie</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
