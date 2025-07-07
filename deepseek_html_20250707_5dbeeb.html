@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoBee Service Portfolio</title>
+    <style>
+        :root {
+            --primary-bg: #121212;
+            --secondary-bg: #1E1E1E;
+            --accent: #FFD700;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 1rem;
+        }
+        
+        h1 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        
+        .logo {
+            height: 60px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+        
+        .stage-container {
+            margin-bottom: 3rem;
+        }
+        
+        .stage-header {
+            display: flex;
+            align-items: center;
+            background-color: var(--secondary-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 8px 8px 0 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .stage-title {
+            font-size: 1.5rem;
+            margin: 0;
+            color: var(--accent);
+        }
+        
+        .stage-icon {
+            margin-right: 1rem;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .service-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--secondary-bg);
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+        }
+        
+        .service-table th {
+            background-color: #333;
+            color: var(--accent);
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .service-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .service-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .status-yes {
+            background-color: rgba(0, 200, 0, 0.2);
+            color: #00C853;
+            border: 1px solid #00C853;
+        }
+        
+        .status-no {
+            background-color: rgba(255, 0, 0, 0.2);
+            color: #FF5252;
+            border: 1px solid #FF5252;
+        }
+        
+        .status-progress {
+            background-color: rgba(255, 214, 0, 0.2);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .status-planned {
+            background-color: rgba(66, 165, 245, 0.2);
+            color: #42A5F5;
+            border: 1px solid #42A5F5;
+        }
+        
+        .competitor-cell {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .visualization {
+            margin-top: 3rem;
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .viz-title {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .viz-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        
+        .viz-item {
+            text-align: center;
+            margin: 1rem;
+            min-width: 150px;
+        }
+        
+        .viz-value {
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .viz-label {
+            color: var(--text-secondary);
+        }
+        
+        .svg-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 1rem;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>RecoBee Service Portfolio</h1>
+                <div class="subtitle">Comprehensive AI-powered solutions for the film industry</div>
+            </div>
+            <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#FFD700" stroke-width="8"/>
+                <path fill="#FFD700" d="M30,30 L70,30 L70,45 L55,45 L55,70 L40,70 L40,45 L30,45 Z"/>
+            </svg>
+        </header>
+        
+        <!-- Pre-production Stage -->
+        <div class="stage-container">
+            <div class="stage-header">
+                <svg class="stage-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/>
+                </svg>
+                <h2 class="stage-title">Pre-production</h2>
+            </div>
+            <table class="service-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>RecoBee Status</th>
+                        <th>Competitor Pricing / Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Industry Genre & Language Performance Trend</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">Ormax Bundles: ₹15–20 Lakh/year</td>
+                    </tr>
+                    <tr>
+                        <td>Actor / Director Performance Trend</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">Ormax Bundles: ₹15–20 Lakh/year</td>
+                    </tr>
+                    <tr>
+                        <td>Script Analysis</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">₹2K–5K per script (no contextual competition)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Production Stage -->
+        <div class="stage-container">
+            <div class="stage-header">
+                <svg class="stage-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                    <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                </svg>
+                <h2 class="stage-title">Production</h2>
+            </div>
+            <table class="service-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>RecoBee Status</th>
+                        <th>Competitor Pricing / Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Movie Making</td>
+                        <td><span class="status status-no">❌ Not Planned</span></td>
+                        <td class="competitor-cell">—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pre/Post Production Stage -->
+        <div class="stage-container">
+            <div class="stage-header">
+                <svg class="stage-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+                <h2 class="stage-title">Pre/Post Production</h2>
+            </div>
+            <table class="service-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>RecoBee Status</th>
+                        <th>Competitor Pricing / Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Day 1 Box Office Predictor</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">Ormax: Included in ₹15–20 Lakh/year package</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Post Production Stage -->
+        <div class="stage-container">
+            <div class="stage-header">
+                <svg class="stage-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                    <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+                <h2 class="stage-title">Post Production</h2>
+            </div>
+            <table class="service-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>RecoBee Status</th>
+                        <th>Competitor Pricing / Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Real-Time Sentiment Analysis</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">BrandMentions / MentionAnalytics (~$100/month, not contextual)</td>
+                    </tr>
+                    <tr>
+                        <td>Course Correction Strategies</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">Part of above</td>
+                    </tr>
+                    <tr>
+                        <td>AI-Powered Insights</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">Part of above</td>
+                    </tr>
+                    <tr>
+                        <td>Regional Buzz Mapping</td>
+                        <td><span class="status status-progress">🔄 In Progress</span></td>
+                        <td class="competitor-cell">Not Available</td>
+                    </tr>
+                    <tr>
+                        <td>Trailer Analysis</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">No strong competitor; Est. ₹50K per analysis</td>
+                    </tr>
+                    <tr>
+                        <td>Marketing Strategies / Marketing Execution</td>
+                        <td><span class="status status-planned">🔜 Planned</span></td>
+                        <td class="competitor-cell">Upto 10% of marketing budget</td>
+                    </tr>
+                    <tr>
+                        <td>Distribution Strategies</td>
+                        <td><span class="status status-planned">🔜 Planned</span></td>
+                        <td class="competitor-cell">Not Available</td>
+                    </tr>
+                    <tr>
+                        <td>Target Marketing on RecoBee App</td>
+                        <td><span class="status status-planned">🔜 Planned</span></td>
+                        <td class="competitor-cell">—</td>
+                    </tr>
+                    <tr>
+                        <td>Real-Time Collection Reporting / Analysis</td>
+                        <td><span class="status status-yes">✅ Yes</span></td>
+                        <td class="competitor-cell">₹4–5 Lakh per movie</td>
+                    </tr>
+                    <tr>
+                        <td>Content Testing</td>
+                        <td><span class="status status-planned">🔜 Planned</span></td>
+                        <td class="competitor-cell">₹6–25 Lakh/movie (0.25–0.75% of production cost)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Visualization Section -->
+        <div class="visualization">
+            <h3 class="viz-title">RecoBee Service Coverage</h3>
+            <div class="viz-container">
+                <div class="viz-item">
+                    <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
+                    </svg>
+                    <div class="viz-value">7</div>
+                    <div class="viz-label">Services Available</div>
+                </div>
+                <div class="viz-item">
+                    <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                        <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+                    </svg>
+                    <div class="viz-value">3</div>
+                    <div class="viz-label">In Progress</div>
+                </div>
+                <div class="viz-item">
+                    <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                        <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                    </svg>
+                    <div class="viz-value">4</div>
+                    <div class="viz-label">Planned</div>
+                </div>
+                <div class="viz-item">
+                    <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FFD700">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    <div class="viz-value">1</div>
+                    <div class="viz-label">Not Planned</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            © 2023 RecoBee | AI-powered Film Industry Solutions
+        </footer>
+    </div>
+</body>
+</html>
