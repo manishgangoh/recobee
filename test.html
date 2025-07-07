@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoBee Services - Investor Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light grey background */
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .status-active {
+            color: #10B981; /* green-500 */
+        }
+        .status-in-progress {
+            color: #F59E0B; /* amber-500 */
+        }
+        .status-planned {
+            color: #3B82F6; /* blue-500 */
+        }
+        .status-not-planned {
+            color: #EF4444; /* red-500 */
+        }
+        .stage-heading {
+            background-color: #4B5563; /* gray-700 */
+            color: #ffffff;
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 600; /* font-semibold */
+            text-align: center;
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid #CBD5E1; /* slate-300 */
+            margin: 0 auto 1.5rem auto;
+        }
+        @media (min-width: 768px) {
+            .grid-cols-1-md-2-lg-3 {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 lg:p-12">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-10 leading-tight">
+            RecoBee Services: Value & Flow
+        </h1>
+
+        <!-- Pre-Production Stage -->
+        <div class="stage-heading">1️⃣ Pre-Production</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Industry Genre & Language Trend -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Industry Genre & Language Trend</h3>
+                <p class="text-sm text-gray-600 mb-3">Understand market preferences.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹15–20 Lakh/year</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor Price</p>
+            </div>
+
+            <!-- Actor / Director Performance Trend -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Actor / Director Performance Trend</h3>
+                <p class="text-sm text-gray-600 mb-3">Analyze key talent impact.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹15–20 Lakh/year</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor Price</p>
+            </div>
+
+            <!-- Script Analysis -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Script Analysis</h3>
+                <p class="text-sm text-gray-600 mb-3">Evaluate script potential.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹2K–5K/script</span>
+                </div>
+                <p class="text-sm text-gray-500">No contextual competitors</p>
+            </div>
+        </div>
+        <div class="arrow-down"></div>
+
+        <!-- Production Stage -->
+        <div class="stage-heading">2️⃣ Production</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Movie Making -->
+            <div class="card col-span-full md:col-span-1 md:col-start-2">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Movie Making</h3>
+                <p class="text-sm text-gray-600 mb-3">Core production process.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-not-planned">❌ Not Planned</span>
+                    <span class="text-gray-700 font-medium">No offering planned by RecoBee</span>
+                </div>
+            </div>
+        </div>
+        <div class="arrow-down"></div>
+
+        <!-- Pre / Post Production Stage -->
+        <div class="stage-heading">3️⃣ Pre / Post Production</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Day 1 Box Office Predictor -->
+            <div class="card col-span-full md:col-span-1 md:col-start-2">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Day 1 Box Office Predictor</h3>
+                <p class="text-sm text-gray-600 mb-3">Forecast opening day performance.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">Included in ₹15–20 Lakh/year package</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor: Ormax</p>
+            </div>
+        </div>
+        <div class="arrow-down"></div>
+
+        <!-- Post Production Stage -->
+        <div class="stage-heading">4️⃣ Post Production</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Real-Time Sentiment Analysis -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Real-Time Sentiment Analysis</h3>
+                <p class="text-sm text-gray-600 mb-3">Monitor audience reactions.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">$100/month</span>
+                </div>
+                <p class="text-sm text-gray-500">Limited context for few keywords</p>
+            </div>
+
+            <!-- Course Correction Strategies -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Course Correction Strategies</h3>
+                <p class="text-sm text-gray-600 mb-3">Adjust plans based on insights.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-in-progress">🔄 In Progress</span>
+                    <span class="text-gray-700 font-medium">Bundled, not contextualized</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor</p>
+            </div>
+
+            <!-- AI-Powered Insights -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">AI-Powered Insights</h3>
+                <p class="text-sm text-gray-600 mb-3">Deep analytical findings.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">₹50K/analysis (Est.)</span>
+                </div>
+                <p class="text-sm text-gray-500">Est. competitor value</p>
+            </div>
+
+            <!-- Trailer Analysis -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Trailer Analysis</h3>
+                <p class="text-sm text-gray-600 mb-3">Evaluate trailer effectiveness.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹50K/analysis (Est.)</span>
+                </div>
+                <p class="text-sm text-gray-500">Limited tools competitor value</p>
+            </div>
+
+            <!-- Regional Buzz Mapping -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Regional Buzz Mapping</h3>
+                <p class="text-sm text-gray-600 mb-3">Identify local market interest.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-in-progress">🔄 In Progress</span>
+                    <span class="text-gray-700 font-medium">Not Available</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor</p>
+            </div>
+
+            <!-- Real-Time Collection Reporting -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Real-Time Collection Reporting</h3>
+                <p class="text-sm text-gray-600 mb-3">Track box office collections.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹4–5 Lakh per movie</span>
+                </div>
+            </div>
+
+            <!-- Content Testing -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Content Testing</h3>
+                <p class="text-sm text-gray-600 mb-3">Pre-release content validation.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">₹6–25 Lakh per movie</span>
+                </div>
+                <p class="text-sm text-gray-500">0.25%–0.75% of budget</p>
+            </div>
+
+            <!-- Marketing Strategy & Execution -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Marketing Strategy & Execution</h3>
+                <p class="text-sm text-gray-600 mb-3">Develop and implement marketing plans.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">Upto 10% of marketing budget</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor</p>
+            </div>
+
+            <!-- Target Marketing on RecoBee App -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Target Marketing on RecoBee App</h3>
+                <p class="text-sm text-gray-600 mb-3">Direct marketing through our platform.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">Not available with any competitor</span>
+                </div>
+            </div>
+
+            <!-- Distribution Strategies -->
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Distribution Strategies</h3>
+                <p class="text-sm text-gray-600 mb-3">Optimize content distribution.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">Not Available</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor</p>
+            </div>
+        </div>
+
+        <!-- Status Legend -->
+        <div class="card mt-10">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Status Legend</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2 status-active">✅</span>
+                    <span class="text-lg text-gray-700">Active</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2 status-in-progress">🔄</span>
+                    <span class="text-lg text-gray-700">In Progress</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2 status-planned">🔜</span>
+                    <span class="text-lg text-gray-700">Planned</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2 status-not-planned">❌</span>
+                    <span class="text-lg text-gray-700">Not Planned</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
