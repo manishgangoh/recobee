@@ -3,638 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Squickmon's - American Manufacturing Solutions</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>RecoBee Services - Investor Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #0056b3;
-            --primary-dark: #003d7a;
-            --secondary: #e74c3c;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
-            line-height: 1.6;
-            color: var(--dark);
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light grey background */
         }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+            position: relative; /* For absolute positioning of icon */
         }
-        
-        /* Header Styles */
-        header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        .status-active {
+            color: #10B981; /* green-500 */
         }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
+        .status-in-progress {
+            color: #F59E0B; /* amber-500 */
         }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
+        .status-planned {
+            color: #3B82F6; /* blue-500 */
         }
-        
-        .logo span {
-            color: var(--secondary);
+        .status-not-planned {
+            color: #EF4444; /* red-500 */
         }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 100px 0;
+        .stage-heading {
+            background-color: #4B5563; /* gray-700 */
+            color: #ffffff;
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 600; /* font-semibold */
             text-align: center;
+            margin-bottom: 1.5rem; /* mb-6 */
         }
-        
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
+        .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid #CBD5E1; /* slate-300 */
+            margin: 0 auto 1.5rem auto;
         }
-        
-        .hero p {
-            font-size: 20px;
-            max-width: 700px;
-            margin: 0 auto 30px;
+        .card-icon {
+            position: absolute;
+            top: 1.5rem; /* p-6 matches this */
+            right: 1.5rem; /* p-6 matches this */
+            width: 28px; /* Slightly larger icon */
+            height: 28px;
+            color: #6B7280; /* gray-500 */
         }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        
-        .btn:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        /* About Section */
-        .about {
-            padding: 80px 0;
-            background-color: var(--light);
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: "";
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--primary);
-            margin: 15px auto 0;
-        }
-        
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-        
-        .about-text {
-            flex: 1;
-        }
-        
-        .about-text h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
-        
-        .about-image {
-            flex: 1;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Quote Form Section */
-        .quote-section {
-            padding: 80px 0;
-            background-color: white;
-        }
-        
-        .quote-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
-            background-color: var(--light);
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .form-title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--primary);
-        }
-        
-        .quote-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group.full-width {
-            grid-column: span 2;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .required:after {
-            content: "*";
-            color: var(--secondary);
-            margin-left: 4px;
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
-        }
-        
-        select {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 16px;
-        }
-        
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px 25px;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            width: 100%;
-        }
-        
-        .submit-btn:hover {
-            background: var(--primary-dark);
-        }
-        
-        /* Features Section */
-        .features {
-            padding: 80px 0;
-            background-color: var(--light);
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 50px;
-        }
-        
-        .feature-card {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .feature-icon {
-            font-size: 40px;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-        
-        .feature-card h3 {
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 60px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-column h3 {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-column ul li a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-column ul li a:hover {
-            color: white;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: var(--gray);
-            font-size: 14px;
-        }
-        
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .about-content {
-                flex-direction: column;
-            }
-            
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 36px;
-            }
-            
-            .hero p {
-                font-size: 18px;
-            }
-            
-            .quote-form {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-group.full-width {
-                grid-column: span 1;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero {
-                padding: 80px 0;
-            }
-            
-            .quote-container {
-                padding: 30px 20px;
+        @media (min-width: 768px) {
+            .grid-cols-1-md-2-lg-3 {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             }
         }
     </style>
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">Squick<span>mon's</span></a>
-                <div class="nav-links">
-                    <a href="#about">About</a>
-                    <a href="#products">Products</a>
-                    <a href="#features">Features</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </nav>
-        </div>
-    </header>
+<body class="p-4 md:p-8 lg:p-12">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-10 leading-tight">
+            RecoBee Services: Value & Flow
+        </h1>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>American Engineered Manufacturing Solutions</h1>
-            <p>Innovative products designed to enhance your efficiency, repeatability, and quality in manufacturing processes.</p>
-            <a href="#quote" class="btn">Get a Free Quote</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>About Squickmon's</h2>
-                    <p>We proudly stand as an American company. Our products are engineered and manufactured here in the USA. Our team of engineers are hard at work innovating and working on ways to help your company shine in efficiency, repeatability, and quality.</p>
-                    <p>We are here for you - it is our goal to assist you in manufacturing processes and to increase productivity. With decades of combined experience, we understand the challenges manufacturers face and design solutions to overcome them.</p>
-                    <p>Our commitment to quality and customer service sets us apart in the industry. When you partner with Squickmon's, you're partnering with a team that genuinely cares about your success.</p>
+        <!-- Pre-Production Stage -->
+        <div class="stage-heading">1️⃣ Pre-Production</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Industry Genre & Language Trend -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Industry Genre & Language Trend</h3>
+                <p class="text-sm text-gray-600 mb-3">Understand market preferences.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹15–20 Lakh/year</span>
                 </div>
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Squickmon's manufacturing facility">
+                <p class="text-sm text-gray-500">Competitor Price</p>
+            </div>
+
+            <!-- Actor / Director Performance Trend -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Actor / Director Performance Trend</h3>
+                <p class="text-sm text-gray-600 mb-3">Analyze key talent impact.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹15–20 Lakh/year</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor Price</p>
+            </div>
+
+            <!-- Script Analysis -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Script Analysis</h3>
+                <p class="text-sm text-gray-600 mb-3">Evaluate script potential.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹2K–5K/script</span>
+                </div>
+                <p class="text-sm text-gray-500">No contextual competitors</p>
+            </div>
+        </div>
+        <div class="arrow-down"></div>
+
+        <!-- Production Stage -->
+        <div class="stage-heading">2️⃣ Production</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Movie Making -->
+            <div class="card col-span-full md:col-span-1 md:col-start-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line><line x1="17" y1="17" x2="22" y2="17"></line></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Movie Making</h3>
+                <p class="text-sm text-gray-600 mb-3">Core production process.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-not-planned">❌ Not Planned</span>
+                    <span class="text-gray-700 font-medium">No offering planned by RecoBee</span>
                 </div>
             </div>
         </div>
-    </section>
+        <div class="arrow-down"></div>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Why Choose Squickmon's</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-flag-usa"></i>
-                    </div>
-                    <h3>Made in USA</h3>
-                    <p>All our products are proudly engineered and manufactured in the United States, supporting local jobs and ensuring quality.</p>
+        <!-- Pre / Post Production Stage -->
+        <div class="stage-heading">3️⃣ Pre / Post Production</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Day 1 Box Office Predictor -->
+            <div class="card col-span-full md:col-span-1 md:col-start-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Day 1 Box Office Predictor</h3>
+                <p class="text-sm text-gray-600 mb-3">Forecast opening day performance.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">Included in ₹15–20 Lakh/year package</span>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3>Innovative Engineering</h3>
-                    <p>Our team continuously develops cutting-edge solutions to modern manufacturing challenges.</p>
+                <p class="text-sm text-gray-500">Competitor: Ormax</p>
+            </div>
+        </div>
+        <div class="arrow-down"></div>
+
+        <!-- Post Production Stage -->
+        <div class="stage-heading">4️⃣ Post Production</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Real-Time Sentiment Analysis -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L2 22l1.5-4.5A8.38 8.38 0 0 1 2 11.5 8.5 8.5 0 0 1 10.5 3a8.38 8.38 0 0 1 4.7.9L22 2l-1.5 4.5Z"></path></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Real-Time Sentiment Analysis</h3>
+                <p class="text-sm text-gray-600 mb-3">Monitor audience reactions.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">$100/month</span>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-medal"></i>
-                    </div>
-                    <h3>Proven Quality</h3>
-                    <p>Rigorous testing procedures ensure our products meet the highest industry standards for reliability.</p>
+                <p class="text-sm text-gray-500">Limited context for few keywords</p>
+            </div>
+
+            <!-- Course Correction Strategies -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.76 2.75L3 8"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.76-2.75L21 16"></path></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Course Correction Strategies</h3>
+                <p class="text-sm text-gray-600 mb-3">Adjust plans based on insights.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-in-progress">🔄 In Progress</span>
+                    <span class="text-gray-700 font-medium">Bundled, not contextualized</span>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3>Expert Support</h3>
-                    <p>Our knowledgeable team provides exceptional customer service and technical support.</p>
+                <p class="text-sm text-gray-500">Competitor</p>
+            </div>
+
+            <!-- AI-Powered Insights -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M12 2c.74 0 1.45.28 2.02.78l.05.05c.57.51 1.11 1.25 1.73 2.24l.05.09c.63.99 1.24 2.32 1.84 3.93l.06.17c.6 1.61 1.13 3.44 1.48 5.43L22 17c0 1.7-.5 3.3-1.4 4.5-.9 1.2-2.2 2-3.6 2-1.5 0-2.8-.8-3.6-2l-.04-.05c-.8-.9-1.6-2.2-2.2-3.7l-.07-.17c-.6-.9-1.2-2.1-1.7-3.4L8 8c-.6-1.3-1.1-2.6-1.4-3.8L6 3C5.5 2.5 4.8 2 4 2c-.7 0-1.4.2-2 .7-.6.5-1 1.2-1 2.3 0 .7.2 1.4.5 2.2l.04.07c.4.8.8 1.7 1.3 2.7L4 12c.5 1.1.9 2.1 1.2 3.1l.06.17c.3.9.5 1.8.7 2.6L7 19c.4.9.5 1.6.5 2.1 0 .7-.2 1.4-.5 1.9-.4.5-.9.9-1.5 1.1-.6.2-1.3.2-2 .1-.7-.1-1.3-.4-1.8-.8-.5-.5-.8-1.1-.9-1.8l-.01-.06c-.1-.7-.1-1.5-.1-2.5 0-.7.1-1.5.2-2.4l.05-.2c.1-.9.3-1.9.5-2.9L3 10c.2-.9.4-1.8.6-2.6l.04-.15c.2-.8.4-1.5.6-2.2L5 4c.2-.7.4-1.2.6-1.6L6 2h6z"></path></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">AI-Powered Insights</h3>
+                <p class="text-sm text-gray-600 mb-3">Deep analytical findings.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">₹50K/analysis (Est.)</span>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Boost Productivity</h3>
-                    <p>Our solutions are designed to maximize your operational efficiency and output.</p>
+                <p class="text-sm text-gray-500">Est. competitor value</p>
+            </div>
+
+            <!-- Trailer Analysis -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Trailer Analysis</h3>
+                <p class="text-sm text-gray-600 mb-3">Evaluate trailer effectiveness.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹50K/analysis (Est.)</span>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3>Custom Solutions</h3>
-                    <p>We offer tailored solutions to meet your specific manufacturing requirements.</p>
+                <p class="text-sm text-gray-500">Limited tools competitor value</p>
+            </div>
+
+            <!-- Regional Buzz Mapping -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Regional Buzz Mapping</h3>
+                <p class="text-sm text-gray-600 mb-3">Identify local market interest.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-in-progress">🔄 In Progress</span>
+                    <span class="text-gray-700 font-medium">Not Available</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor</p>
+            </div>
+
+            <!-- Real-Time Collection Reporting -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line><path d="M4 18h.01"></path><path d="M4 14h.01"></path><path d="M4 10h.01"></path><path d="M4 6h.01"></path><path d="M20 18h.01"></path><path d="M20 14h.01"></path><path d="M20 10h.01"></path><path d="M20 6h.01"></path><path d="M10 20h.01"></path><path d="M14 20h.01"></path><path d="M16 20h.01"></path><path d="M8 20h.01"></path><path d="M12 4h.01"></path><path d="M12 8h.01"></path><path d="M12 12h.01"></path><path d="M12 16h.01"></path><path d="M18 16h.01"></path><path d="M18 12h.01"></path><path d="M18 8h.01"></path><path d="M6 12h.01"></path><path d="M6 8h.01"></path><path d="M6 4h.01"></path></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Real-Time Collection Reporting</h3>
+                <p class="text-sm text-gray-600 mb-3">Track box office collections.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-active">✅ Active</span>
+                    <span class="text-gray-700 font-medium">₹4–5 Lakh per movie</span>
+                </div>
+            </div>
+
+            <!-- Content Testing -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Content Testing</h3>
+                <p class="text-sm text-gray-600 mb-3">Pre-release content validation.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">₹6–25 Lakh per movie</span>
+                </div>
+                <p class="text-sm text-gray-500">0.25%–0.75% of budget</p>
+            </div>
+
+            <!-- Marketing Strategy & Execution -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M17 12H3"></path><path d="M10 19l-7-7 7-7"></path></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Marketing Strategy & Execution</h3>
+                <p class="text-sm text-gray-600 mb-3">Develop and implement marketing plans.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">Upto 10% of marketing budget</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor</p>
+            </div>
+
+            <!-- Target Marketing on RecoBee App -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18"></line></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Target Marketing on RecoBee App</h3>
+                <p class="text-sm text-gray-600 mb-3">Direct marketing through our platform.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-gray-700 font-medium">Not available with any competitor</span>
+                </div>
+            </div>
+
+            <!-- Distribution Strategies -->
+            <div class="card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-icon"><path d="M22 17H2V9h10.5L22 3v14Z"></path><path d="M2.5 17a2.5 2.5 0 1 1 0 5H2"></path><path d="M19.5 17a2.5 2.5 0 1 1 0 5H19"></path></svg>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Distribution Strategies</h3>
+                <p class="text-sm text-gray-600 mb-3">Optimize content distribution.</p>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-lg font-bold status-planned">🔜 Planned</span>
+                    <span class="text-700 font-medium">Not Available</span>
+                </div>
+                <p class="text-sm text-gray-500">Competitor</p>
+            </div>
+        </div>
+
+        <!-- Status Legend -->
+        <div class="card mt-10">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Status Legend</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2 status-active">✅</span>
+                    <span class="text-lg text-gray-700">Active</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2 status-in-progress">🔄</span>
+                    <span class="text-lg text-gray-700">In Progress</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2 status-planned">🔜</span>
+                    <span class="text-lg text-gray-700">Planned</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2 status-not-planned">❌</span>
+                    <span class="text-lg text-gray-700">Not Planned</span>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Quote Form Section -->
-    <section id="quote" class="quote-section">
-        <div class="container">
-            <div class="quote-container">
-                <h2 class="form-title">GET A QUOTE</h2>
-                <form class="quote-form">
-                    <div class="form-group">
-                        <label for="first-name" class="required">First Name</label>
-                        <input type="text" id="first-name" name="first_name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="last-name" class="required">Last Name</label>
-                        <input type="text" id="last-name" name="last_name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone" class="required">Phone</label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email" class="required">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="company" class="required">Company</label>
-                        <input type="text" id="company" name="company" required>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="address" class="required">Address</label>
-                        <input type="text" id="address" name="address" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="city" class="required">City</label>
-                        <input type="text" id="city" name="city" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="state" class="required">State</label>
-                        <input type="text" id="state" name="state" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="zip" class="required">Zip</label>
-                        <input type="text" id="zip" name="zip" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="country" class="required">Country</label>
-                        <select id="country" name="country" required>
-                            <option value="US" selected>United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="AU">Australia</option>
-                            <option value="DE">Germany</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="product" class="required">Product You Are Interested In</label>
-                        <select id="product" name="product" required>
-                            <option value="" disabled selected>Select A Product</option>
-                            <option value="automation">Automation Systems</option>
-                            <option value="quality">Quality Control Equipment</option>
-                            <option value="material">Material Handling</option>
-                            <option value="safety">Safety Solutions</option>
-                            <option value="custom">Custom Solutions</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="industry">What Industry do you work in?</label>
-                        <select id="industry" name="industry">
-                            <option value="" disabled selected>Select An Industry</option>
-                            <option value="automotive">Automotive</option>
-                            <option value="aerospace">Aerospace</option>
-                            <option value="medical">Medical Devices</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="consumer">Consumer Goods</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="needs">Tell Us More About Your Needs</label>
-                        <textarea id="needs" name="needs" placeholder="Please describe your specific requirements, challenges, or any other details that will help us serve you better."></textarea>
-                    </div>
-                    
-                    <div class="form-group full-width" style="text-align: center;">
-                        <button type="submit" class="submit-btn">Submit Request</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Squickmon's</h3>
-                    <p>American-engineered manufacturing solutions for improved efficiency, repeatability, and quality.</p>
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Industrial Way, Anytown, USA</p>
-                    <p><i class="fas fa-phone"></i> (800) 555-1234</p>
-                    <p><i class="fas fa-envelope"></i> info@squickmons.com</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Products</h3>
-                    <ul>
-                        <li><a href="#">Automation Systems</a></li>
-                        <li><a href="#">Quality Control</a></li>
-                        <li><a href="#">Material Handling</a></li>
-                        <li><a href="#">Safety Solutions</a></li>
-                        <li><a href="#">Custom Engineering</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="#">Case Studies</a></li>
-                        <li><a href="#">White Papers</a></li>
-                        <li><a href="#">Product Manuals</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Our Team</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">News</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 Squickmon's. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-            </div>
-        </div>
-    </footer>
+    </div>
 </body>
 </html>
