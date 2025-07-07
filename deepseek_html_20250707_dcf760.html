@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoBee - Film Analytics Platform</title>
+    <style>
+        :root {
+            --primary-bg: #0A0A0A;
+            --secondary-bg: #1A1A1A;
+            --accent: #FFC107;
+            --accent-dark: #FFA000;
+            --text-primary: #F5F5F5;
+            --text-secondary: #9E9E9E;
+            --success: #4CAF50;
+            --progress: #FFC107;
+            --planned: #2196F3;
+            --not-planned: #F44336;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header Styles */
+        .presentation-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            height: 100px;
+            filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.4));
+        }
+        
+        h1 {
+            color: transparent;
+            font-size: 3rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--accent), var(--accent-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            margin-top: 0;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Service Roadmap */
+        .roadmap-container {
+            margin: 4rem 0;
+            position: relative;
+        }
+        
+        .roadmap-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .roadmap-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        
+        .roadmap {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 4rem;
+        }
+        
+        .roadmap-line {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), rgba(255, 193, 7, 0.3));
+            z-index: 1;
+        }
+        
+        .phase {
+            width: 30%;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .phase-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background-color: var(--primary-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--accent);
+            box-shadow: 0 0 0 8px rgba(255, 193, 7, 0.1);
+        }
+        
+        .phase-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--accent);
+        }
+        
+        .phase-title {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .phase-services {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            min-height: 300px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #333;
+            position: relative;
+        }
+        
+        .service-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .service-name {
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .service-status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-live {
+            background-color: var(--success);
+            box-shadow: 0 0 5px var(--success);
+        }
+        
+        .status-dev {
+            background-color: var(--progress);
+            box-shadow: 0 0 5px var(--progress);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-planned {
+            background-color: var(--planned);
+            box-shadow: 0 0 5px var(--planned);
+        }
+        
+        .status-na {
+            background-color: var(--not-planned);
+            box-shadow: 0 0 5px var(--not-planned);
+        }
+        
+        .service-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-left: 20px;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Competitive Advantage Section */
+        .advantage-container {
+            margin: 5rem 0;
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.05) 0%, rgba(26, 26, 26, 1) 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 193, 7, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .advantage-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .advantage-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--accent);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .advantage-card {
+            background-color: rgba(26, 26, 26, 0.7);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 193, 7, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 193, 7, 0.3);
+        }
+        
+        .advantage-card h3 {
+            color: var(--accent);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .advantage-card h3 svg {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            fill: var(--accent);
+        }
+        
+        .advantage-card p {
+            color: var(--text-secondary);
+        }
+        
+        /* Market Position */
+        .market-container {
+            margin: 5rem 0;
+        }
+        
+        .market-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--accent);
+        }
+        
+        .market-visual {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+            position: relative;
+            height: 300px;
+        }
+        
+        .market-center {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 1.2rem;
+            z-index: 2;
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.5);
+        }
+        
+        .market-spoke {
+            position: absolute;
+            width: 2px;
+            height: 250px;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+            transform-origin: bottom center;
+            bottom: 0;
+            left: 50%;
+            z-index: 1;
+        }
+        
+        .market-item {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            z-index: 3;
+            transition: all 0.3s ease;
+        }
+        
+        .market-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.3);
+            border-color: var(--accent);
+            z-index: 4;
+        }
+        
+        .market-item svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .market-item-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .market-item-value {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 900px) {
+            .roadmap {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .phase {
+                width: 90%;
+                margin-bottom: 3rem;
+            }
+            
+            .roadmap-line {
+                display: none;
+            }
+            
+            .phase-icon {
+                margin-bottom: 1rem;
+            }
+            
+            .market-visual {
+                height: auto;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .market-spoke {
+                display: none;
+            }
+            
+            .market-item {
+                position: relative;
+                margin: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="presentation-header">
+            <div class="logo-container">
+                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <defs>
+                        <radialGradient id="logoGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                            <stop offset="0%" stop-color="#FFC107"/>
+                            <stop offset="100%" stop-color="#FFA000"/>
+                        </radialGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGradient)" stroke-width="8" stroke-dasharray="2,2"/>
+                    <path fill="url(#logoGradient)" d="M30,30 L70,30 L70,45 L55,45 L55,70 L40,70 L40,45 L30,45 Z"/>
+                </svg>
+            </div>
+            <h1>RecoBee Film Analytics</h1>
+            <p class="subtitle">Revolutionizing film production decisions through AI-powered data analytics at every stage of the film lifecycle</p>
+        </header>
+        
+        <!-- Service Roadmap -->
+        <div class="roadmap-container">
+            <h2 class="roadmap-title">Our Comprehensive Service Roadmap</h2>
+            <div class="roadmap-line"></div>
+            <div class="roadmap">
+                <!-- Pre-production -->
+                <div class="phase">
+                    <div class="phase-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/>
+                        </svg>
+                    </div>
+                    <h3 class="phase-title">Pre-production</h3>
+                    <div class="phase-services">
+                        <div class="service-item">
+                            <div class="service-name">
+                                <span class="service-status status-live"></span>
+                                Industry Trend Analysis
+                            </div>
+                            <div class="service-desc">Genre/language performance data</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">
+                                <span class="service-status status-live"></span>
+                                Talent Analytics
+                            </div>
+                            <div class="service-desc">Actor/director performance trends</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">
+                                <span class="service-status status-live"></span>
+                                Script Analysis
+                            </div>
+                            <div class="service-desc">AI-powered screenplay evaluation</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Production -->
+                <div class="phase">
+                    <div class="phase-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="phase-title">Production</h3>
+                    <div class="phase-services">
+                        <div class="service-item">
+                            <div class="service-name">
+                                <span class="service-status status-na"></span>
+                                Movie Making
+                            </div>
+                            <div class="service-desc">Not currently planned</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Post-production -->
+                <div class="phase">
+                    <div class="phase-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="phase-title">Post-production</h3>
+                    <div class="phase-services">
+                        <div class="service-item">
+                            <div class="service-name">
+                                <span class="service-status status-live"></span>
+                                Box Office Predictor
+                            </div>
+                            <div class="service-desc">89% accurate day 1 forecasts</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">
+                                <span class="service-status status-live"></span>
+                                Sentiment Analysis
+                            </div>
+                            <div class="service-desc">Real-time audience feedback</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">
+                                <span class="service-status status-dev"></span>
+                                Regional Buzz Mapping
+                            </div>
+                            <div class="service-desc">Geographic interest heatmaps</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-name">
+                                <span class="service-status status-planned"></span>
+                                Marketing Strategies
+                            </div>
+                            <div class="service-desc">Data-driven campaign planning</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Competitive Advantage -->
+        <div class="advantage-container">
+            <h2 class="advantage-title">Our Competitive Advantages</h2>
+            <div class="advantage-grid">
+                <div class="advantage-card">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm-7 7H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4z"/>
+                        </svg>
+                        Complete Lifecycle Coverage
+                    </h3>
+                    <p>End-to-end analytics from script to screen, unlike competitors who focus on only specific stages.</p>
+                </div>
+                <div class="advantage-card">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 15h-2v-2h2v2zm0-4h-2V8h2v6z"/>
+                        </svg>
+                        Unique Offerings
+                    </h3>
+                    <p>5 services with no direct competition including script analysis and regional buzz mapping.</p>
+                </div>
+                <div class="advantage-card">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 10 10 10-4.48 10-10S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        Faster Insights
+                    </h3>
+                    <p>Real-time data vs. competitors' weekly/monthly reports gives producers decisive advantage.</p>
+                </div>
+                <div class="advantage-card">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3V8z"/>
+                        </svg>
+                        Cost Effective
+                    </h3>
+                    <p>30-50% lower cost than traditional agencies for marketing services.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Market Position -->
+        <div class="market-container">
+            <h2 class="market-title">Market Position & Metrics</h2>
+            <div class="market-visual">
+                <div class="market-center">RecoBee</div>
+                
+                <!-- Spokes -->
+                <div class="market-spoke" style="transform: rotate(0deg);"></div>
+                <div class="market-spoke" style="transform: rotate(45deg);"></div>
+                <div class="market-spoke" style="transform: rotate(90deg);"></div>
+                <div class="market-spoke" style="transform: rotate(135deg);"></div>
+                <div class="market-spoke" style="transform: rotate(180deg);"></div>
+                <div class="market-spoke" style="transform: rotate(225deg);"></div>
+                <div class="market-spoke" style="transform: rotate(270deg);"></div>
+                <div class="market-spoke" style="transform: rotate(315deg);"></div>
+                
+                <!-- Market Items -->
+                <div class="market-item" style="transform: rotate(0deg) translateX(200px) rotate(0deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
+                    </svg>
+                    <div class="market-item-title">Live Services</div>
+                    <div class="market-item-value">7</div>
+                </div>
+                
+                <div class="market-item" style="transform: rotate(45deg) translateX(200px) rotate(-45deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+                    </svg>
+                    <div class="market-item-title">In Development</div>
+                    <div class="market-item-value">1</div>
+                </div>
+                
+                <div class="market-item" style="transform: rotate(90deg) translateX(200px) rotate(-90deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                    </svg>
+                    <div class="market-item-title">Planned</div>
+                    <div class="market-item-value">4</div>
+                </div>
+                
+                <div class="market-item" style="transform: rotate(135deg) translateX(200px) rotate(-135deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    <div class="market-item-title">No Competition</div>
+                    <div class="market-item-value">5</div>
+                </div>
+                
+                <div class="market-item" style="transform: rotate(180deg) translateX(200px) rotate(-180deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 15h-2v-2h2v2zm0-4h-2V8h2v6z"/>
+                    </svg>
+                    <div class="market-item-title">Accuracy</div>
+                    <div class="market-item-value">89%</div>
+                </div>
+                
+                <div class="market-item" style="transform: rotate(225deg) translateX(200px) rotate(-225deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3V8z"/>
+                    </svg>
+                    <div class="market-item-title">Cost Savings</div>
+                    <div class="market-item-value">30-50%</div>
+                </div>
+                
+                <div class="market-item" style="transform: rotate(270deg) translateX(200px) rotate(-270deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 10 10 10-4.48 10-10S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    <div class="market-item-title">Speed</div>
+                    <div class="market-item-value">Real-time</div>
+                </div>
+                
+                <div class="market-item" style="transform: rotate(315deg) translateX(200px) rotate(-315deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm-7 7H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4z"/>
+                    </svg>
+                    <div class="market-item-title">Coverage</div>
+                    <div class="market-item-value">Full Cycle</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
