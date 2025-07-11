@@ -604,10 +604,6 @@
       <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">12.4%</div>
     </div>
     <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
-      <div style="font-size:0.95rem;color:#aaa;">Total Audience</div>
-      <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">1.6L</div>
-    </div>
-    <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
       <div style="font-size:0.95rem;color:#aaa;">Avg Ticket Price</div>
       <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">₹125</div>
     </div>
@@ -622,7 +618,10 @@
       <div style="flex:1; min-height:0;"><canvas id="netCollectionStateChart" style="height:100%!important;max-height:352px;"></canvas></div>
     </div>
     <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
-      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Avg Occupancy by State</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div id="avgOccupancyStateTitle" style="font-size:1rem;color:#fff;">Avg Occupancy by State</div>
+        <div id="avgOccupancyBackBtn" style="margin-left:16px;display:none;"></div>
+      </div>
       <div style="flex:1; min-height:0;"><canvas id="avgOccupancyStateChart" style="height:100%!important;max-height:352px;"></canvas></div>
     </div>
     <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
@@ -780,7 +779,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 // Avg Occupancy by State
 let avgOccupancyStateChart;
-let occStateLevel = true;
+let occDrillLevel = 'state';
+let occSelectedState = null;
+let occSelectedCity = null;
 const occStateData = {
   labels: ['Telangana', 'Tamil Nadu', 'Karnataka', 'Delhi', 'Maharashtra'],
   data: [19.8, 16.7, 14.2, 12.8, 11.3]
@@ -807,6 +808,45 @@ const occStateCityData = {
     data: [13, 12, 11, 10, 9]
   }
 };
+const occCityAreaData = {
+  'Hyderabad': { labels: ['Banjara Hills', 'Gachibowli', 'Kukatpally', 'Ameerpet', 'Secunderabad'], data: [24, 21, 19, 17, 15] },
+  'Warangal': { labels: ['Hanamkonda', 'Kazipet', 'Subedari', 'Narsampet', 'Jangaon'], data: [19, 17, 15, 13, 12] },
+  'Nizamabad': { labels: ['Bodhan', 'Armoor', 'Nizamabad Rural', 'Dichpally', 'Yellareddy'], data: [16, 14, 13, 12, 10] },
+  'Karimnagar': { labels: ['Ramagundam', 'Jagtial', 'Korutla', 'Sircilla', 'Mancherial'], data: [15, 13, 12, 11, 10] },
+  'Khammam': { labels: ['Wyra', 'Sathupalli', 'Kothagudem', 'Palwancha', 'Madhira'], data: [14, 13, 12, 11, 10] },
+  'Chennai': { labels: ['T Nagar', 'Velachery', 'Anna Nagar', 'Adyar', 'Kodambakkam'], data: [22, 20, 18, 16, 15] },
+  'Coimbatore': { labels: ['RS Puram', 'Gandhipuram', 'Peelamedu', 'Saibaba Colony', 'Singanallur'], data: [18, 17, 16, 15, 14] },
+  'Madurai': { labels: ['KK Nagar', 'Anna Nagar', 'Tallakulam', 'Goripalayam', 'Simmakkal'], data: [17, 16, 15, 14, 13] },
+  'Salem': { labels: ['Fairlands', 'Hasthampatti', 'Seelanaickenpatti', 'Ammapet', 'Suramangalam'], data: [16, 15, 14, 13, 12] },
+  'Tiruchirappalli': { labels: ['Srirangam', 'Thillai Nagar', 'Cantonment', 'Woraiyur', 'Edamalaipatti'], data: [15, 14, 13, 12, 11] },
+  'Bengaluru': { labels: ['Indiranagar', 'Koramangala', 'Whitefield', 'Jayanagar', 'Malleshwaram'], data: [20, 18, 17, 16, 15] },
+  'Mysuru': { labels: ['VV Mohalla', 'Jayalakshmipuram', 'Saraswathipuram', 'Gokulam', 'Hebbal'], data: [17, 16, 15, 14, 13] },
+  'Mangaluru': { labels: ['Kadri', 'Bejai', 'Kankanady', 'Pandeshwar', 'Surathkal'], data: [16, 15, 14, 13, 12] },
+  'Hubli': { labels: ['Vidyanagar', 'Gokul Road', 'Keshwapur', 'Deshpande Nagar', 'Old Hubli'], data: [15, 14, 13, 12, 11] },
+  'Belgaum': { labels: ['Tilakwadi', 'Shivaji Nagar', 'Sadashiv Nagar', 'Rani Chennamma Nagar', 'Hindwadi'], data: [14, 13, 12, 11, 10] },
+  'New Delhi': { labels: ['Connaught Place', 'Chanakyapuri', 'Lajpat Nagar', 'Saket', 'Karol Bagh'], data: [16, 15, 14, 13, 12] },
+  'Rohini': { labels: ['Sector 3', 'Sector 7', 'Sector 13', 'Sector 9', 'Sector 11'], data: [15, 14, 13, 12, 11] },
+  'Dwarka': { labels: ['Sector 6', 'Sector 10', 'Sector 12', 'Sector 5', 'Sector 3'], data: [14, 13, 12, 11, 10] },
+  'Saket': { labels: ['PVR Complex', 'Press Enclave', 'J Block', 'M Block', 'DDA Flats'], data: [13, 12, 11, 10, 9] },
+  'Karol Bagh': { labels: ['Ajmal Khan', 'Bank Street', 'Beadonpura', 'Dev Nagar', 'Faiz Road'], data: [12, 11, 10, 9, 8] },
+  'Mumbai': { labels: ['Andheri', 'Bandra', 'Borivali', 'Dadar', 'Juhu'], data: [15, 14, 13, 12, 11] },
+  'Pune': { labels: ['Kothrud', 'Viman Nagar', 'Hinjewadi', 'Baner', 'Hadapsar'], data: [14, 13, 12, 11, 10] },
+  'Nagpur': { labels: ['Dharampeth', 'Sitabuldi', 'Civil Lines', 'Sadar', 'Mahal'], data: [13, 12, 11, 10, 9] },
+  'Nashik': { labels: ['College Road', 'Indira Nagar', 'Panchavati', 'Satpur', 'CIDCO'], data: [12, 11, 10, 9, 8] },
+  'Thane': { labels: ['Ghodbunder', 'Vartak Nagar', 'Majiwada', 'Kopri', 'Naupada'], data: [11, 10, 9, 8, 7] }
+};
+function updateOccBackBtn() {
+  const btn = document.getElementById('avgOccupancyBackBtn');
+  if (occDrillLevel === 'state') {
+    btn.style.display = 'none';
+  } else if (occDrillLevel === 'city') {
+    btn.style.display = 'block';
+    btn.innerHTML = '<button style="background:#222;color:#FFD600;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;" onclick="showOccStateLevel()">← Back to States</button>';
+  } else if (occDrillLevel === 'area') {
+    btn.style.display = 'block';
+    btn.innerHTML = '<button style="background:#222;color:#FFD600;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;" onclick="showOccCityLevel(\'' + occSelectedState + '\')">← Back to Cities</button>';
+  }
+}
 function renderAvgOccupancyChart(labels, data, title) {
   const ctx = document.getElementById('avgOccupancyStateChart').getContext('2d');
   if (avgOccupancyStateChart) avgOccupancyStateChart.destroy();
@@ -829,44 +869,49 @@ function renderAvgOccupancyChart(labels, data, title) {
       responsive: true,
       maintainAspectRatio: false,
       onClick: (e, elements) => {
-        if (occStateLevel && elements.length > 0) {
+        if (occDrillLevel === 'state' && elements.length > 0) {
           const idx = elements[0].index;
           const state = labels[idx];
           if (occStateCityData[state]) {
-            showOccCityLevel(state);
+            occSelectedState = state;
+            occDrillLevel = 'city';
+            renderAvgOccupancyChart(occStateCityData[state].labels, occStateCityData[state].data, `Avg Occupancy by City in ${state}`);
+            updateOccBackBtn();
+          }
+        } else if (occDrillLevel === 'city' && elements.length > 0) {
+          const idx = elements[0].index;
+          const city = labels[idx];
+          if (occCityAreaData[city]) {
+            occSelectedCity = city;
+            occDrillLevel = 'area';
+            renderAvgOccupancyChart(occCityAreaData[city].labels, occCityAreaData[city].data, `Avg Occupancy by Area in ${city}`);
+            updateOccBackBtn();
           }
         }
       }
     }
   });
   document.getElementById('avgOccupancyStateTitle').textContent = title;
-}
-function showOccCityLevel(state) {
-  occStateLevel = false;
-  renderAvgOccupancyChart(occStateCityData[state].labels, occStateCityData[state].data, `Avg Occupancy by Area (${state})`);
-  document.getElementById('avgOccupancyBackBtn').style.display = 'block';
+  updateOccBackBtn();
 }
 function showOccStateLevel() {
-  occStateLevel = true;
+  occDrillLevel = 'state';
+  occSelectedState = null;
+  occSelectedCity = null;
   renderAvgOccupancyChart(occStateData.labels, occStateData.data, 'Avg Occupancy by State');
-  document.getElementById('avgOccupancyBackBtn').style.display = 'none';
 }
-// Add title and back button to the chart card
-const occCard = document.getElementById('avgOccupancyStateChart').parentElement.parentElement;
-if (!document.getElementById('avgOccupancyStateTitle')) {
-  const titleDiv = document.createElement('div');
-  titleDiv.id = 'avgOccupancyStateTitle';
-  titleDiv.style = 'font-size:1rem;color:#fff;margin-bottom:10px;';
-  titleDiv.textContent = 'Avg Occupancy by State';
-  occCard.insertBefore(titleDiv, occCard.firstChild);
+function showOccCityLevel(state) {
+  occDrillLevel = 'city';
+  occSelectedState = state;
+  occSelectedCity = null;
+  renderAvgOccupancyChart(occStateCityData[state].labels, occStateCityData[state].data, `Avg Occupancy by City in ${state}`);
 }
-if (!document.getElementById('avgOccupancyBackBtn')) {
-  const backDiv = document.createElement('div');
-  backDiv.id = 'avgOccupancyBackBtn';
-  backDiv.style = 'margin-bottom:8px;display:none;';
-  backDiv.innerHTML = '<button style="background:#222;color:#FFD600;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;" onclick="showOccStateLevel()">← Back</button>';
-  occCard.insertBefore(backDiv, occCard.children[1]);
+function showOccAreaLevel(city) {
+  occDrillLevel = 'area';
+  occSelectedCity = city;
+  renderAvgOccupancyChart(occCityAreaData[city].labels, occCityAreaData[city].data, `Avg Occupancy by Area in ${city}`);
 }
+document.getElementById('avgOccupancyBackBtn').onclick = null;
 document.addEventListener('DOMContentLoaded', function() {
   showOccStateLevel();
 });
@@ -874,7 +919,7 @@ document.addEventListener('DOMContentLoaded', function() {
 new Chart(document.getElementById('topCinemasChart').getContext('2d'), {
   type: 'bar',
   data: {
-    labels: ['VISAKHAPATNAM', 'VIJAYAWADA-2', 'BANGALORE', 'RAJAHMUNDRY', 'KARIMNAG'],
+    labels: ['PVR Phoenix', 'INOX City Center', 'Carnival Cinemas', 'Cinepolis Grand', 'Miraj Gold'],
     datasets: [{
       data: [1.9, 1.6, 1.1, 0.8, 0.6],
       backgroundColor: '#00E5FF',
