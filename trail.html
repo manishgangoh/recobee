@@ -635,9 +635,19 @@
   border-radius: 8px 24px 24px 8px;
   transition: background 0.18s, color 0.18s;
 }
-.sidebar-menu-item.active, .sidebar-menu-item:hover {
-  background: #F0CD62;
-  color: #191919;
+.sidebar-menu-item.active {
+  background: #42391C;
+  color: #fff;
+  border-left: 8px solid #FFD700;
+  border-radius: 0 8px 8px 0;
+  margin: 0px 17px;
+}
+.sidebar-menu-item.active .fa {
+  color: #FFD700;
+}
+.sidebar-menu-item:hover {
+  background: #232323;
+  color: #fff;
 }
 .sidebar-menu-item .fa {
   font-size: 1.15rem;
@@ -750,9 +760,9 @@ body { background: #111; color: #fff; font-family: 'Segoe UI',sans-serif; }
     <img src="https://www.recobee.ai/reco-bee-logo.svg" alt="RecoBee" style="background:transparent;">
   </div>
   <div class="sidebar-menu">
-    <div class="sidebar-menu-item active"><i class="fa fa-home"></i> <span>Home</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-home"></i> <span>Home</span></div>
     <div class="sidebar-menu-item"><i class="fa fa-file-alt"></i> <span>Script Analysis</span></div>
-    <div class="sidebar-menu-item"><i class="fa fa-chart-line"></i> <span>Cinelytics</span></div>
+    <div class="sidebar-menu-item active"><i class="fa fa-chart-line"></i> <span>Cinelytics</span></div>
     <div class="sidebar-menu-item"><i class="fa fa-chart-pie"></i> <span>Market Analysis</span></div>
     <div class="sidebar-menu-item"><i class="fa fa-film"></i> <span>Trailer Analysis</span></div>
     <div class="sidebar-menu-item"><i class="fa fa-database"></i> <span>Files & Storage</span></div>
