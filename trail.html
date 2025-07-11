@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         :root {
             --bg-dark: #121212;
@@ -39,7 +40,8 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-white);
-            padding: 20px;
+            padding: 0;
+            margin-left: 260px;
         }
         
         .dashboard {
@@ -589,9 +591,198 @@
             border: 1px solid var(--accent-yellow);
         }
     </style>
+    <style>
+.sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 260px;
+  background: #191919;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  border-right: 1px solid #232323;
+}
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 32px 28px 24px 28px;
+  color: #FFD700;
+  letter-spacing: 1px;
+}
+.sidebar-logo img {
+  height: 32px;
+  width: 101px;
+}
+.sidebar-menu {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+}
+.sidebar-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 28px;
+  font-size: 1.08rem;
+  color: #bdbdbd;
+  cursor: pointer;
+  border-radius: 8px 24px 24px 8px;
+  transition: background 0.18s, color 0.18s;
+}
+.sidebar-menu-item.active, .sidebar-menu-item:hover {
+  background: #F0CD62;
+  color: #191919;
+}
+.sidebar-menu-item .fa {
+  font-size: 1.15rem;
+}
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 24px 28px;
+  border-top: 1px solid #232323;
+}
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #bdbdbd;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: color 0.18s;
+}
+.sidebar-logout:hover {
+  color: #FFD700;
+}
+.topbar {
+  position: fixed;
+  left: 260px;
+  right: 0;
+  top: 0;
+  height: 56px;
+  background: #181818;
+  display: flex;
+  align-items: center;
+  z-index: 900;
+  border-bottom: 1px solid #232323;
+  padding: 0 32px;
+  gap: 18px;
+}
+.topbar-center { flex: 1; display: flex; justify-content: center; }
+.topbar-search {
+  width: 420px;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  padding: 8px 16px;
+  outline: none;
+}
+.topbar-search:focus { border-color: #FFD700; }
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.topbar-credits {
+  background: #232323;
+  color: #FFD700;
+  border-radius: 16px;
+  padding: 4px 16px;
+  font-size: 0.98rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.topbar-credits-label { color: #fff; font-weight: 400; margin-right: 4px; }
+.topbar-credits-value { font-weight: 700; }
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-user-initials {
+  background: #FFD700;
+  color: #222;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+.topbar-user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.topbar-user-name { color: #fff; font-size: 1.01rem; font-weight: 600; }
+.topbar-user-role { color: #FFD700; font-size: 0.92rem; }
+.main-content {
+  margin-left: 24px !important;
+  margin-top: 56px;
+  padding: 32px 0 0 0;
+  min-height: 100vh;
+  background: #111;
+}
+@media (max-width: 900px) {
+  .sidebar { width: 64px; }
+  .sidebar-logo, .sidebar-bottom { display: none; }
+  .sidebar-menu-item { padding: 12px 10px; justify-content: center; }
+  .sidebar-menu-item span { display: none; }
+  .topbar { left: 64px; padding: 0 8px; }
+  .main-content { margin-left: 64px; }
+}
+body { background: #111; color: #fff; font-family: 'Segoe UI',sans-serif; }
+    </style>
 </head>
-<body style="background:#111; color:#fff; font-family:'Segoe UI',sans-serif;">
-<div style="max-width:1600px;margin:0 auto;padding:32px 0;">
+<body>
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <img src="https://www.recobee.ai/reco-bee-logo.svg" alt="RecoBee" style="background:transparent;">
+  </div>
+  <div class="sidebar-menu">
+    <div class="sidebar-menu-item active"><i class="fa fa-home"></i> <span>Home</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-file-alt"></i> <span>Script Analysis</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-chart-line"></i> <span>Cinelytics</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-chart-pie"></i> <span>Market Analysis</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-film"></i> <span>Trailer Analysis</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-database"></i> <span>Files & Storage</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-wallet"></i> <span>Credits & Payments</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-users"></i> <span>Manage Team</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-comment-dots"></i> <span>Feedback</span></div>
+    <div class="sidebar-menu-item"><i class="fa fa-question-circle"></i> <span>Help & Support</span></div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="sidebar-logout"><i class="fa fa-sign-out-alt"></i> <span>Logout</span></div>
+  </div>
+</div>
+<div class="topbar">
+  <div class="topbar-left"></div>
+  <div class="topbar-center">
+    <input class="topbar-search" type="text" placeholder="Search" />
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-credits"><span class="topbar-credits-label">credits:</span> <span class="topbar-credits-value">10</span></div>
+    <div class="topbar-user">
+      <div class="topbar-user-initials">CK</div>
+      <div class="topbar-user-info">
+        <div class="topbar-user-name">Chloe Kirton</div>
+        <div class="topbar-user-role">Producer</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="main-content">
+<div style="max-width:1600px;margin-left:0;padding:32px 0;">
   <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:24px;letter-spacing:0.5px;">BoxOffice Insights</h2>
   <!-- Summary Cards -->
   <div style="display:flex;gap:24px;margin-bottom:32px;">
@@ -653,6 +844,7 @@
       <div style="flex:1; min-height:0;"><canvas id="exhibitorAvgOccupancyChart" style="height:100%!important;max-height:352px;"></canvas></div>
     </div>
   </div>
+</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
