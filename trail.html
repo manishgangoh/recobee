@@ -648,6 +648,8 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+// Chart color palette for dark theme (global)
+const chartPalette = ['#FFD700', '#E6D398', '#FF9900', '#FF5E00', '#00C2FF', '#8D6EFF', '#888888', '#4CAF50', '#FF3B30'];
 let netCollectionStateChart;
 let stateLevel = true;
 let netCollectionDrillLevel = 'state';
@@ -714,7 +716,7 @@ function renderNetCollectionChart(labels, data, title) {
       labels: labels,
       datasets: [{
         data: data,
-        backgroundColor: '#FFD600',
+        backgroundColor: '#FFD700',
         borderRadius: 8
       }]
     },
@@ -856,7 +858,7 @@ function renderAvgOccupancyChart(labels, data, title) {
       labels: labels,
       datasets: [{
         data: data,
-        backgroundColor: '#FFD600',
+        backgroundColor: '#E6D398',
         borderRadius: 8
       }]
     },
@@ -915,28 +917,28 @@ document.getElementById('avgOccupancyBackBtn').onclick = null;
 document.addEventListener('DOMContentLoaded', function() {
   showOccStateLevel();
 });
-// Top Cinemas by Net Collection
+// Top Cinemas by Net Collection (horizontal bar)
 new Chart(document.getElementById('topCinemasChart').getContext('2d'), {
   type: 'bar',
   data: {
     labels: ['PVR Phoenix', 'INOX City Center', 'Carnival Cinemas', 'Cinepolis Grand', 'Miraj Gold'],
     datasets: [{
       data: [1.9, 1.6, 1.1, 0.8, 0.6],
-      backgroundColor: '#00E5FF',
+      backgroundColor: '#FFD700',
       borderRadius: 8
     }]
   },
   options: {indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{color:'#aaa',callback:v=>v+'M'}},y:{ticks:{color:'#aaa'}}},responsive:true,maintainAspectRatio:false}
 });
-// Day-wise Net Collection
+// Day-wise Net Collection (line)
 new Chart(document.getElementById('daywiseNetCollectionChart').getContext('2d'), {
   type: 'line',
   data: {
     labels: Array.from({length:28},(_,i)=>'Day '+(i+1)),
     datasets: [{
       data: [2.8,2.1,1.7,1.5,1.3,1.1,1.0,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.28,0.26,0.24,0.22,0.2,0.18,0.16],
-      borderColor: '#00E5FF',
-      backgroundColor: 'rgba(0,229,255,0.08)',
+      borderColor: '#FFD700',
+      backgroundColor: 'rgba(255,215,0,0.08)',
       borderWidth: 2,
       tension: 0.4,
       fill: true,
@@ -945,39 +947,39 @@ new Chart(document.getElementById('daywiseNetCollectionChart').getContext('2d'),
   },
   options: {plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#aaa',callback:v=>v+'M'}},x:{ticks:{color:'#aaa'}}},responsive:true,maintainAspectRatio:false}
 });
-// Exhibitor-wise Net Collection
+// Exhibitor-wise Net Collection (bar)
 new Chart(document.getElementById('exhibitorNetCollectionChart').getContext('2d'), {
   type: 'bar',
   data: {
-    labels: ['SYAMALA TALKIES','SQR-1 CAPITAL C','SPICE CINEMAS','SQR-1 MYTHRIS PR','CINE POLICS-1'],
+    labels: ['PVR', 'INOX', 'Carnival', 'Miraj', 'Cinepolis'],
     datasets: [{
       data: [750000, 700000, 680000, 720000, 690000],
-      backgroundColor: '#7C4DFF',
+      backgroundColor: '#E6D398',
       borderRadius: 8
     }]
   },
   options: {plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#aaa',callback:v=>v/1000000+'M'}},x:{ticks:{color:'#aaa'}}},responsive:true,maintainAspectRatio:false}
 });
-// Net Collection by Time Slot
+// Net Collection by Time Slot (pie)
 new Chart(document.getElementById('netCollectionTimeSlotChart').getContext('2d'), {
   type: 'pie',
   data: {
     labels: ['Matinee Show','First Show','Second Show','Noon Show','Special Shows'],
     datasets: [{
       data: [31.4, 12.9, 23.5, 29.3, 2.9],
-      backgroundColor: ['#FFD600','#00E5FF','#7C4DFF','#FFEA00','#FF6F00']
+      backgroundColor: ['#FFD700', '#E6D398', '#FF9900', '#FF5E00', '#00C2FF']
     }]
   },
-  options: {plugins:{legend:{labels:{color:'#aaa',font:{size:14}}}},responsive:true,maintainAspectRatio:false}
+  options: {plugins:{legend:{position:'bottom',align:'center',labels:{color:'#aaa',font:{size:14}}}},responsive:true,maintainAspectRatio:false}
 });
-// Exhibitor-wise Avg Occupancy
+// Exhibitor-wise Avg Occupancy (bar)
 new Chart(document.getElementById('exhibitorAvgOccupancyChart').getContext('2d'), {
   type: 'bar',
   data: {
-    labels: ['SYAMALA TALKIES','SQR-1 CAPITAL C','SPICE CINEMAS','SQR-1 MYTHRIS PR','CINE POLICS-1'],
+    labels: ['PVR', 'INOX', 'Carnival', 'Miraj', 'Cinepolis'],
     datasets: [{
       data: [17, 9, 19, 21, 15],
-      backgroundColor: '#00E5FF',
+      backgroundColor: '#E6D398',
       borderRadius: 8
     }]
   },
