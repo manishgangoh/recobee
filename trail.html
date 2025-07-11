@@ -472,6 +472,68 @@
             font-weight: 500;
             margin-bottom: 18px;
         }
+        .summary-row {
+            display: flex;
+            gap: 32px;
+            margin: 40px 0 32px 0;
+            justify-content: center;
+        }
+        .summary-card {
+            background: #1E1E1E;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            padding: 32px 28px 24px 28px;
+            min-width: 300px;
+            flex: 1 1 0;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border: 1px solid var(--border-color);
+        }
+        .summary-card h3 {
+            color: #fff;
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: 0.2px;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .summary-table td, .summary-table th {
+            padding: 10px 0;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .summary-table th {
+            font-weight: 600;
+            color: #fff;
+        }
+        .summary-table td.value {
+            color: var(--accent-yellow);
+            font-weight: 600;
+            text-align: right;
+        }
+        .summary-center-value {
+            color: var(--accent-yellow);
+            font-size: 2.6rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 18px 0 8px 0;
+            width: 100%;
+        }
+        .summary-center-subtext {
+            color: var(--accent-yellow);
+            font-size: 1.1rem;
+            text-align: center;
+            width: 100%;
+        }
+        @media (max-width: 1100px) {
+            .summary-row { flex-direction: column; gap: 18px; }
+            .summary-card { max-width: 100%; min-width: 0; align-items: stretch; }
+        }
     </style>
     <style>
         table.dataTable {
@@ -528,1053 +590,354 @@
         }
     </style>
 </head>
-<body>
-    <div class="dashboard">
-        <div class="dashboard-header">
-            <h1 class="dashboard-title">Movie Box Office Dashboard</h1>
-            <div class="dashboard-update">Updated 15 min ago</div>
-        </div>
-        
-        <!-- 1. Overview Panel (Executive Summary) -->
-        <div class="section-title">1. Overview Panel (Executive Summary)</div>
-        <div class="dashboard-grid">
-            <div class="card overview-panel">
-                <div class="card-header">
-                    <div class="card-title">Overview</div>
-                </div>
-                <div class="total-box-office">$73.6 Cr</div>
-                <div style="color: var(--text-yellow);">Total Net Box Office</div>
-                <div class="progress-container" style="margin-top: 30px;">
-                    <div class="progress-item">
-                        <div class="progress-label">Occupancy</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 40%;"></div>
-                        </div>
-                        <div>40%</div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="progress-label">Drop-off</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 25%; background-color: #FF6B6B;"></div>
-                        </div>
-                        <div>25%</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card day-wise-collection">
-                <div class="card-header">
-                    <div class="card-title">Day Wise Collection</div>
-                    <div class="card-actions">
-                        <button class="btn btn-primary">
-                            <span>Export</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="dayWiseChart"></canvas>
-                </div>
-            </div>
-            <div class="card occupancy-trend">
-                <div class="card-header">
-                    <div class="card-title">Cumulative Occupancy Trend</div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="occupancyTrendChart"></canvas>
-                </div>
-            </div>
-            <div class="card top-cities">
-                <div class="card-header">
-                    <div class="card-title">Top Cities in 3 Days</div>
-                </div>
-                <div>
-                    <div class="city-item"><span class="city-link" data-city="Delhi">Delhi</span><span style="color: var(--accent-yellow);">59%</span></div>
-                    <div class="city-item"><span class="city-link" data-city="Mumbai">Mumbai</span><span style="color: var(--accent-yellow);">17%</span></div>
-                    <div class="city-item"><span class="city-link" data-city="Hyderabad">Hyderabad</span><span style="color: var(--accent-yellow);">19%</span></div>
-                    <div class="city-item"><span class="city-link" data-city="Chennai">Chennai</span><span style="color: var(--accent-yellow);">12%</span></div>
-                    <div class="city-item"><span class="city-link" data-city="Kolkata">Kolkata</span><span style="color: var(--accent-yellow);">11%</span></div>
-                </div>
-            </div>
-        </div>
-        <!-- 2. Performance Heatmap (Geo View) -->
-        <div class="section-title">2. Performance Heatmap (Geo View)</div>
-        <div class="dashboard-grid">
-            <div class="card india-map-card" style="grid-column: span 12;">
-                <div class="card-header">
-                    <div class="card-title">Performance Heatmap (India Map)</div>
-                </div>
-                <div id="indiaMap" style="height: 400px; width: 100%; border-radius: 8px; overflow: hidden;"></div>
-            </div>
-        </div>
-        <!-- 3. Theatre-Level Table (Searchable & Sortable) -->
-        <div class="section-title">3. Theatre-Level Table (Searchable & Sortable)</div>
-        <div class="dashboard-grid">
-            <div class="card theatre-data" style="grid-column: span 12;">
-                <div class="card-header">
-                    <div class="card-title">Theatre-Level Data</div>
-                    <div class="card-actions">
-                        <button class="btn btn-primary" id="exportExcelBtn">
-                            <span>Export</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="filters">
-                    <div class="filter-item">
-                        <label>Date</label>
-                        <select>
-                            <option>Last 7 days</option>
-                            <option>Last 30 days</option>
-                            <option>Custom range</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label>Format</label>
-                        <select>
-                            <option>All</option>
-                            <option>2D</option>
-                            <option>3D</option>
-                            <option>IMAX</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label>Language</label>
-                        <select>
-                            <option>All</option>
-                            <option>Hindi</option>
-                            <option>English</option>
-                            <option>Regional</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label>Pricing</label>
-                        <select>
-                            <option>All</option>
-                            <option>Economy</option>
-                            <option>Gold</option>
-                            <option>VIP</option>
-                        </select>
-                    </div>
-                </div>
-                <div style="overflow-x:auto;">
-                <table id="theatreTable" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Theatre Name</th>
-                            <th>City</th>
-                            <th>Chain</th>
-                            <th>Show Time</th>
-                            <th>Occupancy %</th>
-                            <th>Net Collection</th>
-                            <th>Total Seats</th>
-                            <th>Format</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Srex Cironas Prasads</td>
-                            <td>Hyderabad</td>
-                            <td>Prasads</td>
-                            <td>6 PM</td>
-                            <td>78%</td>
-                            <td style="color: var(--accent-yellow);">12.5 Cr</td>
-                            <td>320</td>
-                            <td>IMAX</td>
-                        </tr>
-                        <tr>
-                            <td>Prasads Inerbit</td>
-                            <td>Hyderabad</td>
-                            <td>Prasads</td>
-                            <td>4 PM</td>
-                            <td>65%</td>
-                            <td style="color: var(--accent-yellow);">4.0 Cr</td>
-                            <td>250</td>
-                            <td>3D</td>
-                        </tr>
-                        <tr>
-                            <td>Inerbit Mail Cinepolis</td>
-                            <td>Hyderabad</td>
-                            <td>Cinepolis</td>
-                            <td>7 PM</td>
-                            <td>55%</td>
-                            <td style="color: var(--accent-yellow);">4.2 Cr</td>
-                            <td>200</td>
-                            <td>2D</td>
-                        </tr>
-                        <tr>
-                            <td>Cinepolis Orten Mail</td>
-                            <td>Delhi</td>
-                            <td>Cinepolis</td>
-                            <td>5:45 PM</td>
-                            <td>60%</td>
-                            <td style="color: var(--accent-yellow);">3.2 Cr</td>
-                            <td>180</td>
-                            <td>2D</td>
-                        </tr>
-                        <tr>
-                            <td>Quixx Cinemas</td>
-                            <td>Delhi</td>
-                            <td>Quixx</td>
-                            <td>4:28 PM</td>
-                            <td>48%</td>
-                            <td style="color: var(--accent-yellow);">3.0 Cr</td>
-                            <td>150</td>
-                            <td>2D</td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-        </div>
-        <!-- 4. Time-Based Trends -->
-        <div class="section-title">4. Time-Based Trends</div>
-        <div class="dashboard-grid">
-            <div class="card hourly-trend" style="grid-column: span 6;">
-                <div class="card-header">
-                    <div class="card-title">Hourly Trend</div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="hourlyTrendChart"></canvas>
-                </div>
-            </div>
-            <div class="card showwise-breakdown" style="grid-column: span 6;">
-                <div class="card-header">
-                    <div class="card-title">Show-wise Revenue Breakdown</div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="showwiseBreakdownChart"></canvas>
-                </div>
-            </div>
-            <div class="card audience-dropoff" style="grid-column: span 6;">
-                <div class="card-header">
-                    <div class="card-title">Audience Drop-off After First Show</div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="audienceDropoffChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <!-- 5. City & Format Analysis -->
-        <div class="section-title">5. City & Format Analysis</div>
-        <div class="dashboard-grid">
-            <div class="card revenue-by-city" style="grid-column: span 6;">
-                <div class="card-header">
-                    <div class="card-title">Revenue by City</div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="revenueByCityChart"></canvas>
-                </div>
-            </div>
-            <div class="card occupancy-by-format" style="grid-column: span 6;">
-                <div class="card-header">
-                    <div class="card-title">Occupancy by Format</div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="occupancyByFormatChart"></canvas>
-                </div>
-            </div>
-            <div class="card chain-performance" style="grid-column: span 6;">
-                <div class="card-header">
-                    <div class="card-title">Chain-level Performance</div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="chainPerformanceChart"></canvas>
-                </div>
-            </div>
-            <div class="card pricing-insights" style="grid-column: span 6;">
-                <div class="card-header">
-                    <div class="card-title">Pricing Insights</div>
-                </div>
-                <div class="pricing-grid">
-                    <div class="pricing-card">
-                        <div class="circle-chart-container">
-                            <canvas id="economyChart" width="80" height="80"></canvas>
-                            <div class="circle-chart-value economy">68%</div>
-                        </div>
-                        <div class="pricing-label">Economy</div>
-                    </div>
-                    <div class="pricing-card">
-                        <div class="circle-chart-container">
-                            <canvas id="goldChart" width="80" height="80"></canvas>
-                            <div class="circle-chart-value gold">36%</div>
-                        </div>
-                        <div class="pricing-label">Gold</div>
-                    </div>
-                    <div class="pricing-card">
-                        <div class="circle-chart-container">
-                            <canvas id="vipChart" width="80" height="80"></canvas>
-                            <div class="circle-chart-value vip">60%</div>
-                        </div>
-                        <div class="pricing-label">VIP</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 6. Alerts & Anomalies -->
-        <div class="section-title">6. Alerts & Anomalies</div>
-        <div class="dashboard-grid">
-            <div class="card alerts-anomalies" style="grid-column: span 6;">
-                <div class="card-header">
-                    <div class="card-title">Alerts & Anomalies</div>
-                </div>
-                <div id="alertsList" class="alerts-list"></div>
-            </div>
-        </div>
-        <!-- 7. Comparison Panel -->
-        <div class="section-title">7. Comparison Panel</div>
-        <div class="dashboard-grid">
-            <div class="card comparison-panel" style="grid-column: span 12;">
-                <div class="card-header">
-                    <div class="card-title">Comparison Panel</div>
-                </div>
-                <div class="filters" style="margin-bottom: 0;">
-                    <div class="filter-item">
-                        <label>Compare With</label>
-                        <select id="comparisonType">
-                            <option value="previous">Previous Movies</option>
-                            <option value="genre">Genre</option>
-                            <option value="actor">Actor</option>
-                            <option value="panindia">Pan-India Avg</option>
-                        </select>
-                    </div>
-                    <div class="filter-item" id="comparisonItemContainer">
-                        <label id="comparisonItemLabel">Movie</label>
-                        <select id="comparisonItem">
-                            <option value="Movie A">Movie A</option>
-                            <option value="Movie B">Movie B</option>
-                            <option value="Movie C">Movie C</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="chart-container" style="height: 260px;">
-                    <canvas id="comparisonChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <!-- 8. Drill-Down Feature -->
-        <div class="section-title">8. Drill-Down Feature</div>
-        <div class="dashboard-grid">
-            <div class="card section-subtitle" style="grid-column: span 12;">
-                Click on any city in <b>Top Cities</b> to see theatres, then on a theatre to see shows, then on a show to see seat category analysis.
-            </div>
-        </div>
+<body style="background:#111; color:#fff; font-family:'Segoe UI',sans-serif;">
+<div style="max-width:1600px;margin:0 auto;padding:32px 0;">
+  <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:24px;letter-spacing:0.5px;">BoxOffice Insights</h2>
+  <!-- Summary Cards -->
+  <div style="display:flex;gap:24px;margin-bottom:32px;">
+    <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
+      <div style="font-size:0.95rem;color:#aaa;">Net Collection</div>
+      <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">₹2Cr</div>
     </div>
-
-    <!-- Drill-down Modal -->
-    <div id="drilldownModal" class="drilldown-modal" style="display:none;">
-        <div class="drilldown-modal-content">
-            <span class="drilldown-modal-close" id="drilldownModalClose">&times;</span>
-            <div id="drilldownModalBody"></div>
-        </div>
+    <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
+      <div style="font-size:0.95rem;color:#aaa;">Avg Occupancy</div>
+      <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">12.4%</div>
     </div>
+    <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
+      <div style="font-size:0.95rem;color:#aaa;">Total Audience</div>
+      <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">1.6L</div>
+    </div>
+    <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
+      <div style="font-size:0.95rem;color:#aaa;">Avg Ticket Price</div>
+      <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">₹125</div>
+    </div>
+  </div>
+  <!-- Chart Grid -->
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px;">
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div id="netCollectionStateTitle" style="font-size:1rem;color:#fff;">Net Collection by State</div>
+        <div id="netCollectionBackBtn" style="margin-left:16px;display:none;"></div>
+      </div>
+      <div style="flex:1; min-height:0;"><canvas id="netCollectionStateChart" style="height:100%!important;max-height:352px;"></canvas></div>
+    </div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
+      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Avg Occupancy by State</div>
+      <div style="flex:1; min-height:0;"><canvas id="avgOccupancyStateChart" style="height:100%!important;max-height:352px;"></canvas></div>
+    </div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
+      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Top Cinemas by Net Collection</div>
+      <div style="flex:1; min-height:0;"><canvas id="topCinemasChart" style="height:100%!important;max-height:352px;"></canvas></div>
+    </div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
+      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Day-wise Net Collection</div>
+      <div style="flex:1; min-height:0;"><canvas id="daywiseNetCollectionChart" style="height:100%!important;max-height:352px;"></canvas></div>
+    </div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
+      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Exhibitor-wise Net Collection</div>
+      <div style="flex:1; min-height:0;"><canvas id="exhibitorNetCollectionChart" style="height:100%!important;max-height:352px;"></canvas></div>
+    </div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column; align-items:center; justify-content:center;">
+      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Net Collection by Time Slot</div>
+      <div style="flex:1; min-height:0; display:flex; align-items:center; justify-content:center;"><canvas id="netCollectionTimeSlotChart" style="height:352px!important;width:352px!important;"></canvas></div>
+    </div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
+      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Exhibitor-wise Avg Occupancy</div>
+      <div style="flex:1; min-height:0;"><canvas id="exhibitorAvgOccupancyChart" style="height:100%!important;max-height:352px;"></canvas></div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let netCollectionStateChart;
+let stateLevel = true;
+let netCollectionDrillLevel = 'state';
+let selectedState = null;
+let selectedCity = null;
+const stateData = {
+  labels: ['Maharashtra', 'Delhi', 'Karnataka', 'Tamil Nadu', 'Telangana'],
+  data: [5.2, 4.3, 4.1, 3.9, 3.3]
+};
+const stateCityData = {
+  'Maharashtra': {
+    labels: ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Thane'],
+    data: [2.1, 1.3, 0.8, 0.6, 0.4]
+  },
+  'Delhi': {
+    labels: ['New Delhi', 'Rohini', 'Dwarka', 'Saket', 'Karol Bagh'],
+    data: [1.5, 1.1, 0.9, 0.5, 0.3]
+  },
+  'Karnataka': {
+    labels: ['Bengaluru', 'Mysuru', 'Mangaluru', 'Hubli', 'Belgaum'],
+    data: [2.0, 0.8, 0.6, 0.4, 0.3]
+  },
+  'Tamil Nadu': {
+    labels: ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli'],
+    data: [1.7, 0.7, 0.6, 0.5, 0.4]
+  },
+  'Telangana': {
+    labels: ['Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar', 'Khammam'],
+    data: [1.8, 0.6, 0.4, 0.3, 0.2]
+  }
+};
+const cityAreaData = {
+  'Mumbai': { labels: ['Andheri', 'Bandra', 'Borivali', 'Dadar', 'Juhu'], data: [0.7, 0.5, 0.4, 0.3, 0.2] },
+  'Pune': { labels: ['Kothrud', 'Viman Nagar', 'Hinjewadi', 'Baner', 'Hadapsar'], data: [0.4, 0.3, 0.2, 0.2, 0.2] },
+  'Nagpur': { labels: ['Dharampeth', 'Sitabuldi', 'Civil Lines', 'Sadar', 'Mahal'], data: [0.3, 0.2, 0.1, 0.1, 0.1] },
+  'Nashik': { labels: ['College Road', 'Indira Nagar', 'Panchavati', 'Satpur', 'CIDCO'], data: [0.2, 0.1, 0.1, 0.1, 0.1] },
+  'Thane': { labels: ['Ghodbunder', 'Vartak Nagar', 'Majiwada', 'Kopri', 'Naupada'], data: [0.2, 0.1, 0.1, 0.1, 0.1] },
+  'New Delhi': { labels: ['Connaught Place', 'Chanakyapuri', 'Lajpat Nagar', 'Saket', 'Karol Bagh'], data: [0.5, 0.3, 0.2, 0.2, 0.1] },
+  'Rohini': { labels: ['Sector 3', 'Sector 7', 'Sector 13', 'Sector 9', 'Sector 11'], data: [0.3, 0.2, 0.2, 0.2, 0.2] },
+  'Dwarka': { labels: ['Sector 6', 'Sector 10', 'Sector 12', 'Sector 5', 'Sector 3'], data: [0.2, 0.2, 0.2, 0.2, 0.1] },
+  'Saket': { labels: ['PVR Complex', 'Press Enclave', 'J Block', 'M Block', 'DDA Flats'], data: [0.2, 0.1, 0.1, 0.1, 0.1] },
+  'Karol Bagh': { labels: ['Ajmal Khan', 'Bank Street', 'Beadonpura', 'Dev Nagar', 'Faiz Road'], data: [0.1, 0.1, 0.1, 0.1, 0.1] },
+  // Add similar area data for other cities as needed
+};
+function updateNetCollectionBackBtn() {
+  const btn = document.getElementById('netCollectionBackBtn');
+  if (netCollectionDrillLevel === 'state') {
+    btn.style.display = 'none';
+  } else if (netCollectionDrillLevel === 'city') {
+    btn.style.display = 'block';
+    btn.innerHTML = '<button style="background:#222;color:#FFD600;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;" onclick="showStateLevel()">← Back to States</button>';
+  } else if (netCollectionDrillLevel === 'area') {
+    btn.style.display = 'block';
+    btn.innerHTML = '<button style="background:#222;color:#FFD600;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;" onclick="showCityLevel(\'' + selectedState + '\')">← Back to Cities</button>';
+  }
+}
 
-    <script>
-        window.onload = function() {
-            // Day Wise Collection Chart
-            const dayWiseCtx = document.getElementById('dayWiseChart').getContext('2d');
-            new Chart(dayWiseCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-                    datasets: [{
-                        label: 'Collection (Cr)',
-                        data: [1, 2, 4, 6, 6],
-                        backgroundColor: '#FFD700',
-                        borderColor: '#FFC000',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false,
-                            labels: {
-                                color: '#CCCCCC'
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#333333'
-                            },
-                            ticks: {
-                                color: '#CCCCCC'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#CCCCCC'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Cumulative Occupancy Trend Chart
-            const occupancyTrendCtx = document.getElementById('occupancyTrendChart').getContext('2d');
-            new Chart(occupancyTrendCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-                    datasets: [{
-                        label: 'Occupancy (%)',
-                        data: [30, 35, 38, 40, 42],
-                        backgroundColor: 'rgba(0, 188, 212, 0.15)',
-                        borderColor: '#00bcd4',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#00bcd4',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC', callback: v => v + '%' }
-                        },
-                        x: {
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC' }
-                        }
-                    }
-                }
-            });
-
-            // Hourly Trend Chart
-            const hourlyTrendCtx = document.getElementById('hourlyTrendChart').getContext('2d');
-            new Chart(hourlyTrendCtx, {
-                type: 'line',
-                data: {
-                    labels: ['1 PM', '4 PM', '6 PM', '8 PM'],
-                    datasets: [{
-                        label: 'Revenue',
-                        data: [22, 46, 80, 68],
-                        backgroundColor: 'rgba(255, 215, 0, 0.2)',
-                        borderColor: '#FFD700',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#FFD700',
-                        pointBorderColor: '#121212',
-                        pointBorderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false,
-                            labels: {
-                                color: '#CCCCCC'
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#333333'
-                            },
-                            ticks: {
-                                color: '#CCCCCC'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                color: '#333333'
-                            },
-                            ticks: {
-                                color: '#CCCCCC'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Revenue by City Chart
-            const revenueByCityCtx = document.getElementById('revenueByCityChart').getContext('2d');
-            new Chart(revenueByCityCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Delhi', 'Hyderabad', 'Chennai', 'Mumbai', 'Kolkata'],
-                    datasets: [{
-                        label: 'Revenue (%)',
-                        data: [60, 40, 20, 30, 15],
-                        backgroundColor: [
-                            '#00c6fb',
-                            '#029cf5',
-                            '#13e2c9',
-                            '#1de9b6',
-                            '#1dc8e9'
-                        ],
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    indexAxis: 'y', // Horizontal bar
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC' }
-                        },
-                        y: {
-                            grid: { display: false },
-                            ticks: { color: '#CCCCCC' }
-                        }
-                    }
-                }
-            });
-
-            // Show-wise Revenue Breakdown Chart
-            const showwiseBreakdownCtx = document.getElementById('showwiseBreakdownChart').getContext('2d');
-            new Chart(showwiseBreakdownCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Morning', 'Afternoon', 'Evening', 'Night'],
-                    datasets: [{
-                        label: 'Revenue (Lakh)',
-                        data: [20, 35, 50, 30],
-                        backgroundColor: [
-                            '#FFD700',
-                            '#FFC000',
-                            '#FFA500',
-                            '#00bcd4'
-                        ],
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#CCCCCC' }
-                        }
-                    }
-                }
-            });
-
-            // Audience Drop-off After First Show Chart
-            const audienceDropoffCtx = document.getElementById('audienceDropoffChart').getContext('2d');
-            new Chart(audienceDropoffCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Show 1', 'Show 2', 'Show 3', 'Show 4'],
-                    datasets: [{
-                        label: 'Audience (%)',
-                        data: [100, 70, 50, 40],
-                        backgroundColor: 'rgba(255, 215, 0, 0.15)',
-                        borderColor: '#FFD700',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#FFD700',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC', callback: v => v + '%' }
-                        },
-                        x: {
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC' }
-                        }
-                    }
-                }
-            });
-
-            // Occupancy by Format Chart
-            const occupancyByFormatCtx = document.getElementById('occupancyByFormatChart').getContext('2d');
-            new Chart(occupancyByFormatCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['2D', '3D', 'IMAX'],
-                    datasets: [{
-                        label: 'Occupancy (%)',
-                        data: [45, 60, 80],
-                        backgroundColor: [
-                            '#FFD700',
-                            '#FFC000',
-                            '#00bcd4'
-                        ],
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC', callback: v => v + '%' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#CCCCCC' }
-                        }
-                    }
-                }
-            });
-
-            // Chain-level Performance Chart
-            const chainPerformanceCtx = document.getElementById('chainPerformanceChart').getContext('2d');
-            new Chart(chainPerformanceCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['PVR', 'INOX', 'Miraj', 'Cinepolis'],
-                    datasets: [{
-                        label: 'Revenue (Lakh)',
-                        data: [120, 90, 60, 80],
-                        backgroundColor: [
-                            '#FFD700',
-                            '#FFC000',
-                            '#FFA500',
-                            '#00bcd4'
-                        ],
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#CCCCCC' }
-                        }
-                    }
-                }
-            });
-
-            // Pricing Insights Circle Charts
-            new Chart(document.getElementById('economyChart').getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [68, 32],
-                        backgroundColor: ['#FFD700', '#333333'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    cutout: '70%',
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                    responsive: false
-                }
-            });
-            new Chart(document.getElementById('goldChart').getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [36, 64],
-                        backgroundColor: ['#FFC000', '#333333'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    cutout: '70%',
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                    responsive: false
-                }
-            });
-            new Chart(document.getElementById('vipChart').getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [60, 40],
-                        backgroundColor: ['#FFA500', '#333333'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    cutout: '70%',
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                    responsive: false
-                }
-            });
-        };
-
-        // --- Interactive India Map (Geo Heatmap) ---
-        // Demo city data: [city, lat, lng, value]
-        const cityData = [
-            { name: 'Delhi', lat: 28.6139, lng: 77.2090, value: 60 },
-            { name: 'Mumbai', lat: 19.0760, lng: 72.8777, value: 30 },
-            { name: 'Hyderabad', lat: 17.3850, lng: 78.4867, value: 40 },
-            { name: 'Chennai', lat: 13.0827, lng: 80.2707, value: 20 },
-            { name: 'Kolkata', lat: 22.5726, lng: 88.3639, value: 15 }
-        ];
-        // Only run if indiaMap div exists
-        if (document.getElementById('indiaMap')) {
-            const indiaBounds = [[6.5, 67], [37.1, 97.5]]; // SouthWest, NorthEast corners of India
-            const map = L.map('indiaMap', {
-                maxBounds: indiaBounds,
-                maxBoundsViscosity: 1.0,
-                minZoom: 4,
-                maxZoom: 7
-            }).setView([22.9734, 78.6569], 5);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                minZoom: 4,
-                maxZoom: 7
-            }).addTo(map);
-            // Overlay India GeoJSON outline
-            fetch('https://raw.githubusercontent.com/datameet/maps/master/States/india_states.geojson')
-                .then(res => res.json())
-                .then(geojson => {
-                    L.geoJSON(geojson, {
-                        style: {
-                            color: '#00bcd4',
-                            weight: 2,
-                            fillOpacity: 0
-                        }
-                    }).addTo(map);
-                });
-            cityData.forEach(city => {
-                const color = city.value >= 50 ? '#00bcd4' : city.value >= 30 ? '#FFC000' : '#FFA500';
-                L.circleMarker([city.lat, city.lng], {
-                    radius: 18 + city.value / 5,
-                    fillColor: color,
-                    color: '#222',
-                    weight: 1,
-                    fillOpacity: 0.7
-                })
-                .addTo(map)
-                .bindTooltip(`<b>${city.name}</b><br>Value: ${city.value}%`, { direction: 'top' });
-            });
+function renderNetCollectionChart(labels, data, title) {
+  const ctx = document.getElementById('netCollectionStateChart').getContext('2d');
+  if (netCollectionStateChart) netCollectionStateChart.destroy();
+  netCollectionStateChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: '#FFD600',
+        borderRadius: 8
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { color: '#aaa', callback: v => v + 'M' } },
+        x: { ticks: { color: '#aaa' } }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      onClick: (e, elements) => {
+        if (netCollectionDrillLevel === 'state' && elements.length > 0) {
+          const idx = elements[0].index;
+          const state = labels[idx];
+          if (stateCityData[state]) {
+            selectedState = state;
+            netCollectionDrillLevel = 'city';
+            renderNetCollectionChart(stateCityData[state].labels, stateCityData[state].data, `Net Collection by Area (${state})`);
+            updateNetCollectionBackBtn();
+          }
+        } else if (netCollectionDrillLevel === 'city' && elements.length > 0) {
+          const idx = elements[0].index;
+          const city = labels[idx];
+          if (cityAreaData[city]) {
+            selectedCity = city;
+            netCollectionDrillLevel = 'area';
+            renderNetCollectionChart(cityAreaData[city].labels, cityAreaData[city].data, `Net Collection by Sector in ${city}`);
+            updateNetCollectionBackBtn();
+          }
         }
+      }
+    }
+  });
+  document.getElementById('netCollectionStateTitle').textContent = title;
+  updateNetCollectionBackBtn();
+}
 
-        // DataTables initialization for Theatre Table
-        $(document).ready(function() {
-            var table = $('#theatreTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: 'Export Excel',
-                        className: 'btn btn-primary',
-                        title: 'Theatre Data'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: 'Export PDF',
-                        className: 'btn btn-primary',
-                        title: 'Theatre Data',
-                        orientation: 'landscape',
-                        pageSize: 'A4'
-                    }
-                ],
-                paging: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                responsive: true,
-                language: {
-                    search: "<span style='color:var(--accent-yellow)'>Search:</span>"
-                }
-            });
-            // Custom Export button triggers DataTables export
-            $('#exportExcelBtn').on('click', function() {
-                table.button('.buttons-excel').trigger();
-            });
-        });
-
-        // Alerts & Anomalies logic (based on theatre table demo data)
-        const theatreAlertsData = [
-            { name: 'Srex Cironas Prasads', occupancy: 78 },
-            { name: 'Prasads Inerbit', occupancy: 65 },
-            { name: 'Inerbit Mail Cinepolis', occupancy: 55 },
-            { name: 'Cinepolis Orten Mail', occupancy: 60 },
-            { name: 'Quixx Cinemas', occupancy: 48 },
-            // Demo: add a cancelled and a high-performing show
-            { name: 'Demo Cancelled Show', occupancy: 0 },
-            { name: 'Demo High Performer', occupancy: 92 }
-        ];
-        function renderAlerts() {
-            const alerts = [];
-            theatreAlertsData.forEach(t => {
-                if (t.occupancy === 0) {
-                    alerts.push(`<div class='alert-item alert-cancel'><span class='alert-icon'>❌</span> Show cancelled or 0% occupancy at <b>${t.name}</b></div>`);
-                } else if (t.occupancy < 50) {
-                    alerts.push(`<div class='alert-item alert-low'><span class='alert-icon'>⚠️</span> Underperforming: <b>${t.name}</b> (Occupancy ${t.occupancy}%)</div>`);
-                } else if (t.occupancy > 80) {
-                    alerts.push(`<div class='alert-item alert-high'><span class='alert-icon'>✅</span> High-performing: <b>${t.name}</b> (Occupancy ${t.occupancy}%)</div>`);
-                }
-            });
-            if (alerts.length === 0) {
-                alerts.push(`<div class='alert-item'><span class='alert-icon'>ℹ️</span> No anomalies detected.</div>`);
-            }
-            document.getElementById('alertsList').innerHTML = alerts.join('');
+function showStateLevel() {
+  netCollectionDrillLevel = 'state';
+  selectedState = null;
+  selectedCity = null;
+  renderNetCollectionChart(stateData.labels, stateData.data, 'Net Collection by State');
+  // updateNetCollectionBackBtn(); // now called inside renderNetCollectionChart
+}
+function showCityLevel(state) {
+  netCollectionDrillLevel = 'city';
+  selectedState = state;
+  selectedCity = null;
+  renderNetCollectionChart(stateCityData[state].labels, stateCityData[state].data, `Net Collection by Area (${state})`);
+  // updateNetCollectionBackBtn();
+}
+function showAreaLevel(city) {
+  netCollectionDrillLevel = 'area';
+  selectedCity = city;
+  renderNetCollectionChart(cityAreaData[city].labels, cityAreaData[city].data, `Net Collection by Sector in ${city}`);
+  // updateNetCollectionBackBtn();
+}
+document.getElementById('netCollectionBackBtn').onclick = null; // Remove old onclick
+document.addEventListener('DOMContentLoaded', function() {
+  showStateLevel();
+});
+// Avg Occupancy by State
+let avgOccupancyStateChart;
+let occStateLevel = true;
+const occStateData = {
+  labels: ['Telangana', 'Tamil Nadu', 'Karnataka', 'Delhi', 'Maharashtra'],
+  data: [19.8, 16.7, 14.2, 12.8, 11.3]
+};
+const occStateCityData = {
+  'Telangana': {
+    labels: ['Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar', 'Khammam'],
+    data: [22, 18, 15, 13, 10]
+  },
+  'Tamil Nadu': {
+    labels: ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli'],
+    data: [20, 17, 15, 13, 10]
+  },
+  'Karnataka': {
+    labels: ['Bengaluru', 'Mysuru', 'Mangaluru', 'Hubli', 'Belgaum'],
+    data: [18, 15, 13, 11, 9]
+  },
+  'Delhi': {
+    labels: ['New Delhi', 'Rohini', 'Dwarka', 'Saket', 'Karol Bagh'],
+    data: [14, 13, 12, 11, 10]
+  },
+  'Maharashtra': {
+    labels: ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Thane'],
+    data: [13, 12, 11, 10, 9]
+  }
+};
+function renderAvgOccupancyChart(labels, data, title) {
+  const ctx = document.getElementById('avgOccupancyStateChart').getContext('2d');
+  if (avgOccupancyStateChart) avgOccupancyStateChart.destroy();
+  avgOccupancyStateChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: '#FFD600',
+        borderRadius: 8
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { color: '#aaa', callback: v => v + '%' } },
+        x: { ticks: { color: '#aaa' } }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      onClick: (e, elements) => {
+        if (occStateLevel && elements.length > 0) {
+          const idx = elements[0].index;
+          const state = labels[idx];
+          if (occStateCityData[state]) {
+            showOccCityLevel(state);
+          }
         }
-        renderAlerts();
-
-        // Comparison Panel Demo Data
-        const comparisonData = {
-            previous: {
-                label: 'Previous Movies',
-                items: ['Movie A', 'Movie B', 'Movie C'],
-                chart: {
-                    labels: ['Current', 'Movie A', 'Movie B', 'Movie C'],
-                    data: [120, 110, 90, 130]
-                }
-            },
-            genre: {
-                label: 'Genre',
-                items: ['Action', 'Drama', 'Comedy'],
-                chart: {
-                    labels: ['Current', 'Action', 'Drama', 'Comedy'],
-                    data: [120, 100, 80, 95]
-                }
-            },
-            actor: {
-                label: 'Actor',
-                items: ['Actor X', 'Actor Y', 'Actor Z'],
-                chart: {
-                    labels: ['Current', 'Actor X', 'Actor Y', 'Actor Z'],
-                    data: [120, 140, 110, 100]
-                }
-            },
-            panindia: {
-                label: 'Pan-India Avg',
-                items: ['Day 1', 'Day 2', 'Day 3'],
-                chart: {
-                    labels: ['Current', 'Day 1', 'Day 2', 'Day 3'],
-                    data: [120, 100, 90, 80]
-                }
-            }
-        };
-        let comparisonChart;
-        function updateComparisonPanel(type = 'previous', item = null) {
-            // Update label and items
-            const label = comparisonData[type].label;
-            document.getElementById('comparisonItemLabel').innerText = label;
-            const itemSelect = document.getElementById('comparisonItem');
-            itemSelect.innerHTML = comparisonData[type].items.map(i => `<option value="${i}">${i}</option>`).join('');
-            // Update chart
-            const ctx = document.getElementById('comparisonChart').getContext('2d');
-            if (comparisonChart) comparisonChart.destroy();
-            comparisonChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: comparisonData[type].chart.labels,
-                    datasets: [{
-                        label: 'Net Collection (Cr)',
-                        data: comparisonData[type].chart.data,
-                        backgroundColor: [
-                            '#FFD700', '#FFC000', '#FFA500', '#00bcd4'
-                        ],
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: '#333333' },
-                            ticks: { color: '#CCCCCC' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#CCCCCC' }
-                        }
-                    }
-                }
-            });
-        }
-        document.getElementById('comparisonType').addEventListener('change', function() {
-            updateComparisonPanel(this.value);
-        });
-        // Initial render
-        updateComparisonPanel();
-
-        // --- Drill-down Feature Logic ---
-        // Demo data for drill-down
-        const cityTheatres = {
-            'Delhi': [
-                { name: 'Cinepolis Orten Mail', chain: 'Cinepolis' },
-                { name: 'Quixx Cinemas', chain: 'Quixx' }
-            ],
-            'Mumbai': [
-                { name: 'INOX R-City', chain: 'INOX' },
-                { name: 'PVR Phoenix', chain: 'PVR' }
-            ],
-            'Hyderabad': [
-                { name: 'Srex Cironas Prasads', chain: 'Prasads' },
-                { name: 'Prasads Inerbit', chain: 'Prasads' },
-                { name: 'Inerbit Mail Cinepolis', chain: 'Cinepolis' }
-            ],
-            'Chennai': [
-                { name: 'Sathyam Cinemas', chain: 'SPI' } ],
-            'Kolkata': [
-                { name: 'Navina Cinema', chain: 'Navina' } ]
-        };
-        const theatreShows = {
-            'Cinepolis Orten Mail': [
-                { show: '5:45 PM', occupancy: 60, collection: '3.2 Cr' },
-                { show: '8:00 PM', occupancy: 80, collection: '4.1 Cr' }
-            ],
-            'Quixx Cinemas': [
-                { show: '4:28 PM', occupancy: 48, collection: '3.0 Cr' } ],
-            'INOX R-City': [
-                { show: '6:00 PM', occupancy: 70, collection: '2.8 Cr' } ],
-            'PVR Phoenix': [
-                { show: '9:00 PM', occupancy: 90, collection: '5.0 Cr' } ],
-            'Srex Cironas Prasads': [
-                { show: '6 PM', occupancy: 78, collection: '12.5 Cr' } ],
-            'Prasads Inerbit': [
-                { show: '4 PM', occupancy: 65, collection: '4.0 Cr' } ],
-            'Inerbit Mail Cinepolis': [
-                { show: '7 PM', occupancy: 55, collection: '4.2 Cr' } ],
-            'Sathyam Cinemas': [
-                { show: '7:30 PM', occupancy: 75, collection: '2.2 Cr' } ],
-            'Navina Cinema': [
-                { show: '5:00 PM', occupancy: 60, collection: '1.8 Cr' } ]
-        };
-        const showSeatCategory = {
-            'Cinepolis Orten Mail|5:45 PM': { Economy: 60, Gold: 25, VIP: 15 },
-            'Cinepolis Orten Mail|8:00 PM': { Economy: 50, Gold: 30, VIP: 20 },
-            'Quixx Cinemas|4:28 PM': { Economy: 70, Gold: 20, VIP: 10 },
-            'INOX R-City|6:00 PM': { Economy: 55, Gold: 30, VIP: 15 },
-            'PVR Phoenix|9:00 PM': { Economy: 40, Gold: 35, VIP: 25 },
-            'Srex Cironas Prasads|6 PM': { Economy: 68, Gold: 20, VIP: 12 },
-            'Prasads Inerbit|4 PM': { Economy: 60, Gold: 25, VIP: 15 },
-            'Inerbit Mail Cinepolis|7 PM': { Economy: 65, Gold: 20, VIP: 15 },
-            'Sathyam Cinemas|7:30 PM': { Economy: 70, Gold: 20, VIP: 10 },
-            'Navina Cinema|5:00 PM': { Economy: 60, Gold: 30, VIP: 10 }
-        };
-        // Modal logic
-        function openDrilldownModal(html) {
-            document.getElementById('drilldownModalBody').innerHTML = html;
-            document.getElementById('drilldownModal').style.display = 'flex';
-        }
-        function closeDrilldownModal() {
-            document.getElementById('drilldownModal').style.display = 'none';
-            document.getElementById('drilldownModalBody').innerHTML = '';
-        }
-        document.getElementById('drilldownModalClose').onclick = closeDrilldownModal;
-        window.onclick = function(event) {
-            if (event.target === document.getElementById('drilldownModal')) closeDrilldownModal();
-        };
-        // City click
-        document.querySelectorAll('.city-link').forEach(el => {
-            el.onclick = function() {
-                const city = this.getAttribute('data-city');
-                const theatres = cityTheatres[city] || [];
-                let html = `<h2>Theatres in ${city}</h2><table><thead><tr><th>Theatre</th><th>Chain</th></tr></thead><tbody>`;
-                theatres.forEach(t => {
-                    html += `<tr><td><span class='theatre-link' data-theatre='${t.name}'>${t.name}</span></td><td>${t.chain}</td></tr>`;
-                });
-                html += '</tbody></table>';
-                openDrilldownModal(html);
-                // Theatre click
-                document.querySelectorAll('.theatre-link').forEach(tel => {
-                    tel.onclick = function() {
-                        const theatre = this.getAttribute('data-theatre');
-                        const shows = theatreShows[theatre] || [];
-                        let html2 = `<h2>Shows at ${theatre}</h2><table><thead><tr><th>Show Time</th><th>Occupancy %</th><th>Net Collection</th></tr></thead><tbody>`;
-                        shows.forEach(s => {
-                            html2 += `<tr><td><span class='show-link' data-theatre='${theatre}' data-show='${s.show}'>${s.show}</span></td><td>${s.occupancy}%</td><td>${s.collection}</td></tr>`;
-                        });
-                        html2 += '</tbody></table>';
-                        openDrilldownModal(html2);
-                        // Show click
-                        document.querySelectorAll('.show-link').forEach(sel => {
-                            sel.onclick = function() {
-                                const theatre = this.getAttribute('data-theatre');
-                                const show = this.getAttribute('data-show');
-                                const key = `${theatre}|${show}`;
-                                const cat = showSeatCategory[key];
-                                let html3 = `<h2>Seat Category Analysis<br><span style='font-size:15px;color:var(--accent-yellow)'>${theatre} - ${show}</span></h2><div class='seat-pie-container'><canvas id='seatPieChart'></canvas></div>`;
-                                openDrilldownModal(html3);
-                                // Draw pie chart
-                                setTimeout(() => {
-                                    new Chart(document.getElementById('seatPieChart').getContext('2d'), {
-                                        type: 'doughnut',
-                                        data: {
-                                            labels: ['Economy', 'Gold', 'VIP'],
-                                            datasets: [{
-                                                data: [cat.Economy, cat.Gold, cat.VIP],
-                                                backgroundColor: ['#FFD700', '#FFC000', '#FFA500'],
-                                                borderWidth: 0
-                                            }]
-                                        },
-                                        options: {
-                                            cutout: '70%',
-                                            plugins: { legend: { display: true, labels: { color: '#fff' } } },
-                                            responsive: false
-                                        }
-                                    });
-                                }, 100);
-                            };
-                        });
-                    };
-                });
-            };
-        });
-    </script>
+      }
+    }
+  });
+  document.getElementById('avgOccupancyStateTitle').textContent = title;
+}
+function showOccCityLevel(state) {
+  occStateLevel = false;
+  renderAvgOccupancyChart(occStateCityData[state].labels, occStateCityData[state].data, `Avg Occupancy by Area (${state})`);
+  document.getElementById('avgOccupancyBackBtn').style.display = 'block';
+}
+function showOccStateLevel() {
+  occStateLevel = true;
+  renderAvgOccupancyChart(occStateData.labels, occStateData.data, 'Avg Occupancy by State');
+  document.getElementById('avgOccupancyBackBtn').style.display = 'none';
+}
+// Add title and back button to the chart card
+const occCard = document.getElementById('avgOccupancyStateChart').parentElement.parentElement;
+if (!document.getElementById('avgOccupancyStateTitle')) {
+  const titleDiv = document.createElement('div');
+  titleDiv.id = 'avgOccupancyStateTitle';
+  titleDiv.style = 'font-size:1rem;color:#fff;margin-bottom:10px;';
+  titleDiv.textContent = 'Avg Occupancy by State';
+  occCard.insertBefore(titleDiv, occCard.firstChild);
+}
+if (!document.getElementById('avgOccupancyBackBtn')) {
+  const backDiv = document.createElement('div');
+  backDiv.id = 'avgOccupancyBackBtn';
+  backDiv.style = 'margin-bottom:8px;display:none;';
+  backDiv.innerHTML = '<button style="background:#222;color:#FFD600;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;" onclick="showOccStateLevel()">← Back</button>';
+  occCard.insertBefore(backDiv, occCard.children[1]);
+}
+document.addEventListener('DOMContentLoaded', function() {
+  showOccStateLevel();
+});
+// Top Cinemas by Net Collection
+new Chart(document.getElementById('topCinemasChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: ['VISAKHAPATNAM', 'VIJAYAWADA-2', 'BANGALORE', 'RAJAHMUNDRY', 'KARIMNAG'],
+    datasets: [{
+      data: [1.9, 1.6, 1.1, 0.8, 0.6],
+      backgroundColor: '#00E5FF',
+      borderRadius: 8
+    }]
+  },
+  options: {indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{color:'#aaa',callback:v=>v+'M'}},y:{ticks:{color:'#aaa'}}},responsive:true,maintainAspectRatio:false}
+});
+// Day-wise Net Collection
+new Chart(document.getElementById('daywiseNetCollectionChart').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: Array.from({length:28},(_,i)=>'Day '+(i+1)),
+    datasets: [{
+      data: [2.8,2.1,1.7,1.5,1.3,1.1,1.0,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.28,0.26,0.24,0.22,0.2,0.18,0.16],
+      borderColor: '#00E5FF',
+      backgroundColor: 'rgba(0,229,255,0.08)',
+      borderWidth: 2,
+      tension: 0.4,
+      fill: true,
+      pointRadius: 0
+    }]
+  },
+  options: {plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#aaa',callback:v=>v+'M'}},x:{ticks:{color:'#aaa'}}},responsive:true,maintainAspectRatio:false}
+});
+// Exhibitor-wise Net Collection
+new Chart(document.getElementById('exhibitorNetCollectionChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: ['SYAMALA TALKIES','SQR-1 CAPITAL C','SPICE CINEMAS','SQR-1 MYTHRIS PR','CINE POLICS-1'],
+    datasets: [{
+      data: [750000, 700000, 680000, 720000, 690000],
+      backgroundColor: '#7C4DFF',
+      borderRadius: 8
+    }]
+  },
+  options: {plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#aaa',callback:v=>v/1000000+'M'}},x:{ticks:{color:'#aaa'}}},responsive:true,maintainAspectRatio:false}
+});
+// Net Collection by Time Slot
+new Chart(document.getElementById('netCollectionTimeSlotChart').getContext('2d'), {
+  type: 'pie',
+  data: {
+    labels: ['Matinee Show','First Show','Second Show','Noon Show','Special Shows'],
+    datasets: [{
+      data: [31.4, 12.9, 23.5, 29.3, 2.9],
+      backgroundColor: ['#FFD600','#00E5FF','#7C4DFF','#FFEA00','#FF6F00']
+    }]
+  },
+  options: {plugins:{legend:{labels:{color:'#aaa',font:{size:14}}}},responsive:true,maintainAspectRatio:false}
+});
+// Exhibitor-wise Avg Occupancy
+new Chart(document.getElementById('exhibitorAvgOccupancyChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: ['SYAMALA TALKIES','SQR-1 CAPITAL C','SPICE CINEMAS','SQR-1 MYTHRIS PR','CINE POLICS-1'],
+    datasets: [{
+      data: [17, 9, 19, 21, 15],
+      backgroundColor: '#00E5FF',
+      borderRadius: 8
+    }]
+  },
+  options: {plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:36,ticks:{color:'#aaa',callback:v=>v+'%'}},x:{ticks:{color:'#aaa'}}},responsive:true,maintainAspectRatio:false}
+});
+</script>
 </body>
 </html>
