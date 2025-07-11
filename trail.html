@@ -607,6 +607,14 @@
       <div style="font-size:0.95rem;color:#aaa;">Avg Ticket Price</div>
       <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">₹125</div>
     </div>
+    <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
+      <div style="font-size:0.95rem;color:#aaa;">Sold Ticket</div>
+      <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">1.2L</div>
+    </div>
+    <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
+      <div style="font-size:0.95rem;color:#aaa;">Available Ticket</div>
+      <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">2.0L</div>
+    </div>
   </div>
   <!-- Chart Grid -->
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px;">
@@ -636,9 +644,9 @@
       <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Exhibitor-wise Net Collection</div>
       <div style="flex:1; min-height:0;"><canvas id="exhibitorNetCollectionChart" style="height:100%!important;max-height:352px;"></canvas></div>
     </div>
-    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column; align-items:center; justify-content:center;">
-      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Net Collection by Time Slot</div>
-      <div style="flex:1; min-height:0; display:flex; align-items:center; justify-content:center;"><canvas id="netCollectionTimeSlotChart" style="height:352px!important;width:352px!important;"></canvas></div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column; align-items:center; justify-content:center; min-width:600px; width:100%;">
+      <div style="font-size:1rem;color:#fff;margin-bottom:10px;text-align:left;width:100%;">Net Collection by Time Slot</div>
+      <div style="flex:1; min-height:0; display:flex; align-items:center; justify-content:center; width:100%; min-width:600px;"><canvas id="netCollectionTimeSlotChart" style="height:352px!important;width:100%!important;min-width:600px;"></canvas></div>
     </div>
     <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
       <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Exhibitor-wise Avg Occupancy</div>
@@ -716,7 +724,7 @@ function renderNetCollectionChart(labels, data, title) {
       labels: labels,
       datasets: [{
         data: data,
-        backgroundColor: '#FFD700',
+        backgroundColor: '#F0CD62',
         borderRadius: 8
       }]
     },
@@ -924,7 +932,7 @@ new Chart(document.getElementById('topCinemasChart').getContext('2d'), {
     labels: ['PVR Phoenix', 'INOX City Center', 'Carnival Cinemas', 'Cinepolis Grand', 'Miraj Gold'],
     datasets: [{
       data: [1.9, 1.6, 1.1, 0.8, 0.6],
-      backgroundColor: '#FFD700',
+      backgroundColor: '#F0CD62',
       borderRadius: 8
     }]
   },
@@ -937,8 +945,8 @@ new Chart(document.getElementById('daywiseNetCollectionChart').getContext('2d'),
     labels: Array.from({length:28},(_,i)=>'Day '+(i+1)),
     datasets: [{
       data: [2.8,2.1,1.7,1.5,1.3,1.1,1.0,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.28,0.26,0.24,0.22,0.2,0.18,0.16],
-      borderColor: '#FFD700',
-      backgroundColor: 'rgba(255,215,0,0.08)',
+      borderColor: '#F0CD62',
+      backgroundColor: 'rgba(240,205,98,0.08)',
       borderWidth: 2,
       tension: 0.4,
       fill: true,
@@ -967,10 +975,10 @@ new Chart(document.getElementById('netCollectionTimeSlotChart').getContext('2d')
     labels: ['Matinee Show','First Show','Second Show','Noon Show','Special Shows'],
     datasets: [{
       data: [31.4, 12.9, 23.5, 29.3, 2.9],
-      backgroundColor: ['#FFD700', '#E6D398', '#FF9900', '#FF5E00', '#00C2FF']
+      backgroundColor: ['#F0CD62', '#E6D398', '#FF9900', '#FF5E00', '#00C2FF']
     }]
   },
-  options: {plugins:{legend:{position:'bottom',align:'center',labels:{color:'#aaa',font:{size:14}}}},responsive:true,maintainAspectRatio:false}
+  options: {plugins:{legend:{position:'right',labels:{color:'#aaa',font:{size:14}}}},responsive:true,maintainAspectRatio:false}
 });
 // Exhibitor-wise Avg Occupancy (bar)
 new Chart(document.getElementById('exhibitorAvgOccupancyChart').getContext('2d'), {
