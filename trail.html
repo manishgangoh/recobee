@@ -749,9 +749,49 @@
   .sidebar-menu-item { padding: 12px 10px; justify-content: center; }
   .sidebar-menu-item span { display: none; }
   .topbar { left: 64px; padding: 0 8px; }
+  .breadcrumb-bar { left: 64px; }
   .main-content { margin-left: 64px; }
 }
 body { background: #111; color: #fff; font-family: 'Segoe UI',sans-serif; }
+    </style>
+    <style>
+.breadcrumb-bar {
+  position: fixed;
+  top: 56px;
+  left: 260px;
+  right: 0;
+  height: 38px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 36px;
+  font-size: 14px;
+  color: #FFD700;
+  border: none;
+  z-index: 800;
+  border-bottom: 1px solid #232323;
+}
+.breadcrumb-link {
+  color: #e0e0e0;
+  cursor: pointer;
+  font-weight: 500;
+}
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+.breadcrumb-sep {
+  color: #888;
+  font-size: 1.1rem;
+  margin: 0 2px;
+}
+.breadcrumb-current {
+  color: #FFD700;
+  font-weight: 500;
+}
+.main-content {
+  margin-top: 94px;
+        }
     </style>
 </head>
 <body>
@@ -791,6 +831,11 @@ body { background: #111; color: #fff; font-family: 'Segoe UI',sans-serif; }
                 </div>
             </div>
                     </div>
+<div class="breadcrumb-bar">
+  <span class="breadcrumb-link">Home</span>
+  <span class="breadcrumb-sep">&gt;</span>
+  <span class="breadcrumb-current">Dashboard</span>
+                </div>
 <div class="main-content">
 <div style="max-width:1600px;margin-left:0;padding:32px 0;">
   <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:24px;letter-spacing:0.5px;">BoxOffice Insights</h2>
@@ -803,11 +848,11 @@ body { background: #111; color: #fff; font-family: 'Segoe UI',sans-serif; }
     <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
       <div style="font-size:0.95rem;color:#aaa;">Avg Occupancy</div>
       <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">12.4%</div>
-                </div>
+            </div>
     <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
       <div style="font-size:0.95rem;color:#aaa;">Avg Ticket Price</div>
       <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">₹125</div>
-            </div>
+                </div>
     <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
       <div style="font-size:0.95rem;color:#aaa;">Sold Ticket</div>
       <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">1.2L</div>
@@ -815,8 +860,8 @@ body { background: #111; color: #fff; font-family: 'Segoe UI',sans-serif; }
     <div style="flex:1;background:#181818;border-radius:14px;padding:24px 0 18px 24px;display:flex;flex-direction:column;gap:8px;min-width:180px;">
       <div style="font-size:0.95rem;color:#aaa;">Available Ticket</div>
       <div style="font-size:2rem;font-weight:700;letter-spacing:1px;">2.0L</div>
-                </div>
             </div>
+                </div>
   <!-- Chart Grid -->
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px;">
     <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
@@ -825,14 +870,14 @@ body { background: #111; color: #fff; font-family: 'Segoe UI',sans-serif; }
         <div id="netCollectionBackBtn" style="margin-left:16px;display:none;"></div>
                 </div>
       <div style="flex:1; min-height:0;"><canvas id="netCollectionStateChart" style="height:100%!important;max-height:352px;"></canvas></div>
-                </div>
+            </div>
     <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div id="avgOccupancyStateTitle" style="font-size:1rem;color:#fff;">Avg Occupancy by State</div>
         <div id="avgOccupancyBackBtn" style="margin-left:16px;display:none;"></div>
-            </div>
-      <div style="flex:1; min-height:0;"><canvas id="avgOccupancyStateChart" style="height:100%!important;max-height:352px;"></canvas></div>
                 </div>
+      <div style="flex:1; min-height:0;"><canvas id="avgOccupancyStateChart" style="height:100%!important;max-height:352px;"></canvas></div>
+                    </div>
     <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
       <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Top Cinemas by Net Collection</div>
       <div style="flex:1; min-height:0;"><canvas id="topCinemasChart" style="height:100%!important;max-height:352px;"></canvas></div>
@@ -845,18 +890,31 @@ body { background: #111; color: #fff; font-family: 'Segoe UI',sans-serif; }
       <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Exhibitor-wise Net Collection</div>
       <div style="flex:1; min-height:0;"><canvas id="exhibitorNetCollectionChart" style="height:100%!important;max-height:352px;"></canvas></div>
                     </div>
-    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column; align-items:center; justify-content:center; min-width:600px; width:100%;">
-      <div style="font-size:1rem;color:#fff;margin-bottom:10px;text-align:left;width:100%;">Net Collection by Time Slot</div>
-      <div style="flex:1; min-height:0; display:flex; align-items:center; justify-content:center; width:100%; min-width:600px;"><canvas id="netCollectionTimeSlotChart" style="height:352px!important;width:100%!important;min-width:600px;"></canvas></div>
-                    </div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
+      <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Net Collection by Time Slot</div>
+      <div style="flex:1; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:48px; min-width:600px; width:100%;">
+        <div style="display:flex;align-items:center;justify-content:center;min-width:320px;">
+          <canvas id="netCollectionTimeSlotChart" style="height:260px!important;width:260px!important;"></canvas>
+        </div>
+        <div id="netCollectionTimeSlotLegend" style="width:240px;"></div>
+      </div>
+    </div>
     <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
       <div style="font-size:1rem;color:#fff;margin-bottom:10px;">Exhibitor-wise Avg Occupancy</div>
       <div style="flex:1; min-height:0;"><canvas id="exhibitorAvgOccupancyChart" style="height:100%!important;max-height:352px;"></canvas></div>
-                    </div>
                 </div>
+    <div style="background:#181818;border-radius:14px;padding:24px; height: 400px; display: flex; flex-direction: column;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div id="avgTicketPriceStateTitle" style="font-size:1rem;color:#fff;">Avg Ticket Price by State</div>
+        <div id="avgTicketPriceBackBtn" style="margin-left:16px;display:none;"></div>
+                </div>
+      <div style="flex:1; min-height:0;"><canvas id="avgTicketPriceStateChart" style="height:100%!important;max-height:352px;"></canvas></div>
+            </div>
             </div>
                 </div>
+            </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
     <script>
 // Chart color palette for dark theme (global)
 const chartPalette = ['#FFD700', '#E6D398', '#FF9900', '#FF5E00', '#00C2FF', '#8D6EFF', '#888888', '#4CAF50', '#FF3B30'];
@@ -1145,13 +1203,13 @@ new Chart(document.getElementById('daywiseNetCollectionChart').getContext('2d'),
             type: 'line',
             data: {
     labels: Array.from({length:28},(_,i)=>'Day '+(i+1)),
-    datasets: [{
+                datasets: [{
       data: [2.8,2.1,1.7,1.5,1.3,1.1,1.0,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,0.3,0.28,0.26,0.24,0.22,0.2,0.18,0.16],
       borderColor: '#F0CD62',
       backgroundColor: 'rgba(240,205,98,0.08)',
-      borderWidth: 2,
-      tension: 0.4,
-      fill: true,
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
       pointRadius: 4,
       pointHoverRadius: 6,
       pointBackgroundColor: '#F0CD62',
@@ -1181,11 +1239,65 @@ new Chart(document.getElementById('netCollectionTimeSlotChart').getContext('2d')
   data: {
     labels: ['Matinee Show','First Show','Second Show','Noon Show','Special Shows'],
     datasets: [{
-      data: [31.4, 12.9, 23.5, 29.3, 2.9],
-      backgroundColor: ['#F0CD62', '#E6D398', '#FF9900', '#FF5E00', '#00C2FF']
+      data: [33.0, 31.4, 21.9, 12.0, 1.7],
+      backgroundColor: ['#F0CD62', '#8D6EFF', '#00C2FF', '#21E6C1', '#FF5E00']
     }]
   },
-  options: {plugins:{legend:{position:'right',labels:{color:'#aaa',font:{size:14}}}},responsive:true,maintainAspectRatio:false}
+  options: {
+    plugins: {
+      legend: {
+        display: false // Turn off Chart.js built-in legend
+      },
+      datalabels: {
+        color: '#fff',
+        font: { weight: 'bold', size: 18 },
+        formatter: (value, context) => value.toFixed(1) + '%'
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false
+  },
+  plugins: [ChartDataLabels, {
+    id: 'legendPercentBox',
+    afterRender: function(chart) {
+      if (!chart.legend) return;
+      const ctx = chart.ctx;
+      const items = chart.legend.legendItems;
+      const fontSize = 16;
+      const boxWidth = 40;
+      const boxHeight = 24;
+      const boxLabelGap = 16;
+      ctx.font = 'bold ' + fontSize + 'px Segoe UI, Arial';
+      items.forEach((item, i) => {
+        const box = chart.legend.legendHitBoxes[i];
+        if (!box) return;
+        // Draw color box
+        ctx.save();
+        ctx.fillStyle = item.fillStyle;
+        ctx.strokeStyle = item.strokeStyle;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.rect(box.left, box.top, boxWidth, boxHeight);
+        ctx.fill();
+        ctx.stroke();
+        // Draw % text inside box
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = 'bold 13px Segoe UI, Arial';
+        ctx.fillText(item.percent, box.left + boxWidth / 2, box.top + boxHeight / 2);
+        ctx.restore();
+        // Draw label to the right of the box
+        ctx.save();
+        ctx.font = 'bold 16px Segoe UI, Arial';
+        ctx.fillStyle = '#e0e0e0';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(item.text, box.left + boxWidth + boxLabelGap, box.top + boxHeight / 2);
+        ctx.restore();
+      });
+    }
+  }]
 });
 // Exhibitor-wise Avg Occupancy (bar)
 new Chart(document.getElementById('exhibitorAvgOccupancyChart').getContext('2d'), {
@@ -1200,6 +1312,171 @@ new Chart(document.getElementById('exhibitorAvgOccupancyChart').getContext('2d')
   },
   options: {plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:36,ticks:{color:'#aaa',callback:v=>v+'%'}},x:{ticks:{color:'#aaa'}}},responsive:true,maintainAspectRatio:false}
         });
+
+// Avg Ticket Price by State
+let avgTicketPriceStateChart;
+let ticketPriceDrillLevel = 'state';
+let ticketPriceSelectedState = null;
+let ticketPriceSelectedCity = null;
+const ticketPriceStateData = {
+  labels: ['Delhi', 'Maharashtra', 'Karnataka', 'Tamil Nadu', 'Telangana'],
+  data: [180, 165, 155, 145, 135]
+};
+const ticketPriceStateCityData = {
+  'Delhi': {
+    labels: ['New Delhi', 'Rohini', 'Dwarka', 'Saket', 'Karol Bagh'],
+    data: [220, 190, 175, 200, 160]
+  },
+  'Maharashtra': {
+    labels: ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Thane'],
+    data: [200, 170, 140, 150, 160]
+  },
+  'Karnataka': {
+    labels: ['Bengaluru', 'Mysuru', 'Mangaluru', 'Hubli', 'Belgaum'],
+    data: [180, 150, 140, 130, 125]
+  },
+  'Tamil Nadu': {
+    labels: ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli'],
+    data: [170, 150, 140, 130, 125]
+  },
+  'Telangana': {
+    labels: ['Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar', 'Khammam'],
+    data: [160, 140, 130, 125, 120]
+  }
+};
+const ticketPriceCityAreaData = {
+  'New Delhi': { labels: ['Connaught Place', 'Chanakyapuri', 'Lajpat Nagar', 'Saket', 'Karol Bagh'], data: [250, 230, 210, 220, 180] },
+  'Rohini': { labels: ['Sector 3', 'Sector 7', 'Sector 13', 'Sector 9', 'Sector 11'], data: [200, 190, 185, 180, 175] },
+  'Dwarka': { labels: ['Sector 6', 'Sector 10', 'Sector 12', 'Sector 5', 'Sector 3'], data: [180, 175, 170, 165, 160] },
+  'Saket': { labels: ['PVR Complex', 'Press Enclave', 'J Block', 'M Block', 'DDA Flats'], data: [220, 210, 200, 190, 180] },
+  'Karol Bagh': { labels: ['Ajmal Khan', 'Bank Street', 'Beadonpura', 'Dev Nagar', 'Faiz Road'], data: [170, 165, 160, 155, 150] },
+  'Mumbai': { labels: ['Andheri', 'Bandra', 'Borivali', 'Dadar', 'Juhu'], data: [220, 200, 190, 180, 210] },
+  'Pune': { labels: ['Kothrud', 'Viman Nagar', 'Hinjewadi', 'Baner', 'Hadapsar'], data: [180, 170, 160, 165, 155] },
+  'Nagpur': { labels: ['Dharampeth', 'Sitabuldi', 'Civil Lines', 'Sadar', 'Mahal'], data: [150, 145, 140, 135, 130] },
+  'Nashik': { labels: ['College Road', 'Indira Nagar', 'Panchavati', 'Satpur', 'CIDCO'], data: [160, 155, 150, 145, 140] },
+  'Thane': { labels: ['Ghodbunder', 'Vartak Nagar', 'Majiwada', 'Kopri', 'Naupada'], data: [170, 165, 160, 155, 150] },
+  'Bengaluru': { labels: ['Indiranagar', 'Koramangala', 'Whitefield', 'Jayanagar', 'Malleshwaram'], data: [190, 180, 170, 165, 160] },
+  'Mysuru': { labels: ['VV Mohalla', 'Jayalakshmipuram', 'Saraswathipuram', 'Gokulam', 'Hebbal'], data: [160, 155, 150, 145, 140] },
+  'Mangaluru': { labels: ['Kadri', 'Bejai', 'Kankanady', 'Pandeshwar', 'Surathkal'], data: [150, 145, 140, 135, 130] },
+  'Hubli': { labels: ['Vidyanagar', 'Gokul Road', 'Keshwapur', 'Deshpande Nagar', 'Old Hubli'], data: [140, 135, 130, 125, 120] },
+  'Belgaum': { labels: ['Tilakwadi', 'Shivaji Nagar', 'Sadashiv Nagar', 'Rani Chennamma Nagar', 'Hindwadi'], data: [135, 130, 125, 120, 115] },
+  'Chennai': { labels: ['T Nagar', 'Velachery', 'Anna Nagar', 'Adyar', 'Kodambakkam'], data: [180, 170, 160, 155, 150] },
+  'Coimbatore': { labels: ['RS Puram', 'Gandhipuram', 'Peelamedu', 'Saibaba Colony', 'Singanallur'], data: [160, 155, 150, 145, 140] },
+  'Madurai': { labels: ['KK Nagar', 'Anna Nagar', 'Tallakulam', 'Goripalayam', 'Simmakkal'], data: [150, 145, 140, 135, 130] },
+  'Salem': { labels: ['Fairlands', 'Hasthampatti', 'Seelanaickenpatti', 'Ammapet', 'Suramangalam'], data: [140, 135, 130, 125, 120] },
+  'Tiruchirappalli': { labels: ['Srirangam', 'Thillai Nagar', 'Cantonment', 'Woraiyur', 'Edamalaipatti'], data: [135, 130, 125, 120, 115] },
+  'Hyderabad': { labels: ['Banjara Hills', 'Gachibowli', 'Kukatpally', 'Ameerpet', 'Secunderabad'], data: [170, 160, 150, 145, 140] },
+  'Warangal': { labels: ['Hanamkonda', 'Kazipet', 'Subedari', 'Narsampet', 'Jangaon'], data: [150, 145, 140, 135, 130] },
+  'Nizamabad': { labels: ['Bodhan', 'Armoor', 'Nizamabad Rural', 'Dichpally', 'Yellareddy'], data: [140, 135, 130, 125, 120] },
+  'Karimnagar': { labels: ['Ramagundam', 'Jagtial', 'Korutla', 'Sircilla', 'Mancherial'], data: [135, 130, 125, 120, 115] },
+  'Khammam': { labels: ['Wyra', 'Sathupalli', 'Kothagudem', 'Palwancha', 'Madhira'], data: [130, 125, 120, 115, 110] }
+};
+
+function updateTicketPriceBackBtn() {
+  const btn = document.getElementById('avgTicketPriceBackBtn');
+  if (ticketPriceDrillLevel === 'state') {
+    btn.style.display = 'none';
+  } else if (ticketPriceDrillLevel === 'city') {
+    btn.style.display = 'block';
+    btn.innerHTML = '<button style="background:#222;color:#FFD600;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;" onclick="showTicketPriceStateLevel()">← Back to States</button>';
+  } else if (ticketPriceDrillLevel === 'area') {
+    btn.style.display = 'block';
+    btn.innerHTML = '<button style="background:#222;color:#FFD600;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;" onclick="showTicketPriceCityLevel(\'' + ticketPriceSelectedState + '\')">← Back to Cities</button>';
+  }
+}
+
+function renderAvgTicketPriceChart(labels, data, title) {
+  const ctx = document.getElementById('avgTicketPriceStateChart').getContext('2d');
+  if (avgTicketPriceStateChart) avgTicketPriceStateChart.destroy();
+  avgTicketPriceStateChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: '#FF9900',
+        borderRadius: 8
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { color: '#aaa', callback: v => '₹' + v } },
+        x: { ticks: { color: '#aaa' } }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      onClick: (e, elements) => {
+        if (ticketPriceDrillLevel === 'state' && elements.length > 0) {
+          const idx = elements[0].index;
+          const state = labels[idx];
+          if (ticketPriceStateCityData[state]) {
+            ticketPriceSelectedState = state;
+            ticketPriceDrillLevel = 'city';
+            renderAvgTicketPriceChart(ticketPriceStateCityData[state].labels, ticketPriceStateCityData[state].data, `Avg Ticket Price by City in ${state}`);
+            updateTicketPriceBackBtn();
+          }
+        } else if (ticketPriceDrillLevel === 'city' && elements.length > 0) {
+          const idx = elements[0].index;
+          const city = labels[idx];
+          if (ticketPriceCityAreaData[city]) {
+            ticketPriceSelectedCity = city;
+            ticketPriceDrillLevel = 'area';
+            renderAvgTicketPriceChart(ticketPriceCityAreaData[city].labels, ticketPriceCityAreaData[city].data, `Avg Ticket Price by Area in ${city}`);
+            updateTicketPriceBackBtn();
+          }
+        }
+      }
+    }
+  });
+  document.getElementById('avgTicketPriceStateTitle').textContent = title;
+  updateTicketPriceBackBtn();
+}
+
+function showTicketPriceStateLevel() {
+  ticketPriceDrillLevel = 'state';
+  ticketPriceSelectedState = null;
+  ticketPriceSelectedCity = null;
+  renderAvgTicketPriceChart(ticketPriceStateData.labels, ticketPriceStateData.data, 'Avg Ticket Price by State');
+}
+
+function showTicketPriceCityLevel(state) {
+  ticketPriceDrillLevel = 'city';
+  ticketPriceSelectedState = state;
+  ticketPriceSelectedCity = null;
+  renderAvgTicketPriceChart(ticketPriceStateCityData[state].labels, ticketPriceStateCityData[state].data, `Avg Ticket Price by City in ${state}`);
+}
+
+function showTicketPriceAreaLevel(city) {
+  ticketPriceDrillLevel = 'area';
+  ticketPriceSelectedCity = city;
+  renderAvgTicketPriceChart(ticketPriceCityAreaData[city].labels, ticketPriceCityAreaData[city].data, `Avg Ticket Price by Area in ${city}`);
+}
+
+document.getElementById('avgTicketPriceBackBtn').onclick = null;
+document.addEventListener('DOMContentLoaded', function() {
+  showTicketPriceStateLevel();
+});
+    </script>
+    <script>
+    function renderNetCollectionTimeSlotLegend() {
+      const labels = ['Matinee Show','First Show','Second Show','Noon Show','Special Shows'];
+      const data = [33.0, 31.4, 21.9, 12.0, 1.7];
+      const colors = ['#F0CD62', '#8D6EFF', '#00C2FF', '#21E6C1', '#FF5E00'];
+      const total = data.reduce((a, b) => a + b, 0);
+      let html = '<div style="display:flex;flex-direction:column;gap:16px;">';
+      for (let i = 0; i < labels.length; i++) {
+        const percent = ((data[i] / total) * 100).toFixed(1) + '%';
+        html += `<div style="display:flex;align-items:center;gap:18px;">
+          <div style="width:44px;height:28px;background:${colors[i]};border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px;color:#fff;">${percent}</div>
+          <span style="font-size:18px;color:#bdbdbd;font-weight:500;white-space:nowrap;">${labels[i]}</span>
+        </div>`;
+      }
+      html += '</div>';
+      document.getElementById('netCollectionTimeSlotLegend').innerHTML = html;
+    }
+    // Call after DOM is loaded
+    document.addEventListener('DOMContentLoaded', renderNetCollectionTimeSlotLegend);
     </script>
 </body>
 </html>
